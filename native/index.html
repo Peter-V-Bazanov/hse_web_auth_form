@@ -5,6 +5,7 @@
         <meta name="description" content="ChaindUp authentication form">
         <title>ChainedUp</title>
         <link rel="shortcut icon" href="logo_mini_16x16.svg">
+        <link rel="stylesheet" href="styles.css">
     </head>
 
     <body>
@@ -12,20 +13,22 @@
             <img src="logo_128x32.svg" alt="ChainedUp">
         </header>
         <main>
-            <h1>Sign in</h1>
-            <button>Continue with Google</button>
-            <button>Sign in with Apple</button>
-            <hr />
-            <form action="/hse_web_auth_form/dummy.html">
-                <input type="text" placeholder="Email or Phone">
-                <input type="password" placeholder="Password">
-                <a href="dummy.html">Forgot password?</a>
-                <label>
-                    <input type="checkbox" name="keep_logged_in" value="yes">
-                    Keep me logged in
-                </label>
-                <button>Sign in</button>
-            </form>
+            <div class="card">
+                <h1>Sign in</h1>
+                <button>Continue with Google</button>
+                <button>Sign in with Apple</button>
+                <hr />
+                <form action="/hse_web_auth_form/dummy.html">
+                    <input type="text" placeholder="Email or Phone">
+                    <input type="password" placeholder="Password">
+                    <a href="dummy.html">Forgot password?</a>
+                    <label>
+                        <input type="checkbox" name="keep_logged_in" value="yes">
+                        Keep me logged in
+                    </label>
+                    <button>Sign in</button>
+                </form>    
+                </div>
         </main>
         <footer>
             <img src="logo_64x16_black.svg" alt="ChainedUp">
