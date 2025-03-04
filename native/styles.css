@@ -1,19 +1,101 @@
 :root {
     --primary-color: #B33948;
     --on-primary-color: #FFFFFF;
-    --background-light-color: #FFFFFF;
-    --on-background-light-color: #000000;
+    --background-color: #FFFFFF;
+    --on-background-color: #000000;
+    --background-hover: #EEEEEE;
+    --background-active: #BBBBBB;
 }
 
-.card {
-    border: 1px solid var(--on-background-light-color);
-    border-radius: 10px;
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
 
-    padding: 24px 16px 16px;
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
 
-    width: 500px;
+header {
+    background-color: var(--background-color);
+    padding: 20px;
+    text-align: start;
+}
+
+main {
+    flex: 1; /* Занимает всё доступное пространство между header и footer */
+    display: flex;
+    justify-content: center; /* Центрирование по горизонтали */
+    align-items: center;     /* Центрирование по вертикали */
+    background-color: var(--background-color);
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 20px;
+    background-color: var(--background-color);
+    font: normal normal normal 12px / 18px Verdana, sans-serif;
 }
 
 h1 {
     font: normal bold normal 24px / 32px Verdana, sans-serif;
+    color: var(--on-background-color);
 }
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 16px;
+    
+    border: 1px solid var(--on-background-color);
+    border-radius: 10px;
+    padding: 24px 16px 16px;
+    width: 20vw;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 16px;
+    width: 100%;
+}
+
+.form-el {
+    width: 100%;
+}
+
+button.form {
+    background-color: var(--background-color);
+    color: var(--on-background-color);
+    font: normal normal normal 16px / 24px Verdana, sans-serif;
+    padding: 4px 32px;
+
+    width: 100%;
+
+    border: 1px solid var(--on-background-color);
+    border-radius: 20px;
+}
+
+button.form:hover {
+    background-color: var(--background-hover);
+}
+
+button.form:active {
+    background-color: var(--background-active);
+}
+
+button.form:focus {
+    outline: 2px solid #3b99fc;
+    outline-offset: 2px;
+  }
