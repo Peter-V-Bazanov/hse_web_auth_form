@@ -17,9 +17,11 @@
             <main>
                 <div class="card">
                     <h1>Sign in</h1>
-                    <button class="form">&#x1F34F; Continue with Google</button>
-                    <button class="form">&#x1F34E; Sign in with Apple</button>
-                    <hr />
+                    <button class="form background">&#x1F34F; Continue with Google</button>
+                    <button class="form background">&#x1F34E; Sign in with Apple</button>
+                    <div class="separator">
+                        <span>or</span>
+                    </div>
                     <form action="/hse_web_auth_form/dummy.html">
                         <input class="form-el" type="text" placeholder="Email or Phone">
                         <input class="form-el" type="password" placeholder="Password">
@@ -28,7 +30,7 @@
                             <input type="checkbox" name="keep_logged_in" value="yes">
                             Keep me logged in
                         </label>
-                        <button class="form-el">Sign in</button>
+                        <button class="form-el form primary">Sign in</button>
                     </form>    
                     </div>
             </main>
