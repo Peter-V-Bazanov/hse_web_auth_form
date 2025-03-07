@@ -1,6 +1,9 @@
 :root {
     --primary-color: #B33948;
     --on-primary-color: #FFFFFF;
+    --primary-hover: #8f2e3a;
+    --primary-active: #72252e;
+
     --background-color: #FFFFFF;
     --on-background-color: #000000;
     --background-hover: #EEEEEE;
@@ -17,7 +20,7 @@ html, body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-  }
+}
 
 header {
     background-color: var(--background-color);
@@ -45,7 +48,7 @@ footer {
 }
 
 h1 {
-    font: normal bold normal 24px / 32px Verdana, sans-serif;
+    font: normal bold normal 24px / 24px Verdana, sans-serif;
     color: var(--on-background-color);
 }
 
@@ -76,9 +79,7 @@ form {
 }
 
 button.form {
-    background-color: var(--background-color);
-    color: var(--on-background-color);
-    font: normal normal normal 16px / 24px Verdana, sans-serif;
+    font: normal normal normal 14px / 21px Verdana, sans-serif;
     padding: 4px 32px;
 
     width: 100%;
@@ -87,15 +88,65 @@ button.form {
     border-radius: 20px;
 }
 
-button.form:hover {
+button.background {
+    background-color: var(--background-color);
+    color: var(--on-background-color);
+}
+
+button.background:hover {
     background-color: var(--background-hover);
 }
 
-button.form:active {
+button.background:active {
     background-color: var(--background-active);
 }
 
-button.form:focus {
+button.background:focus {
     outline: 2px solid #3b99fc;
     outline-offset: 2px;
   }
+
+button.primary {
+    background-color: var(--primary-color);
+    color: var(--on-primary-color);
+}
+
+button.primary:hover {
+    background-color: var(--primary-hover);
+}
+
+button.primary:active {
+    background-color: var(--primary-active);
+}
+
+button.primary:focus {
+    outline: 2px solid #3b99fc;
+    outline-offset: 2px;
+  }
+
+.separator {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    margin: 10px 0; /* Отступы сверху и снизу для эстетики */
+  }
+  
+.separator::before,
+.separator::after {
+    content: "";
+    flex: 1;
+    display: block;
+    border-bottom: 1px solid #ccc;
+    background: rgba(255, 0, 0, 0.1);
+}
+  
+    .separator::before {
+    margin-right: 10px;
+}
+  
+.separator::after {
+    margin-left: 10px;
+}
