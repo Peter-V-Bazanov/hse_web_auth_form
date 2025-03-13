@@ -199,3 +199,47 @@ button.primary:focus {
 label {
     font: normal normal normal 14px / 21px Verdana, sans-serif;
 }
+
+.custom-select-container {
+    position: relative;
+    display: inline-block;
+    border: 1px solid var(--on-background-color);
+    border-radius: 5px;
+    padding: 0 5px;
+}
+
+.custom-select-container:hover {
+    background-color: var(--background-hover);
+}
+  
+.custom-select {
+    /* Отключаем стандартное оформление браузера */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    
+    border: none;
+    background: transparent;
+    
+    font: normal normal normal 12px / 18px Verdana, sans-serif;
+    color: var(--gray-anchor-color);
+    
+    padding: 5px 5px 5px 0;
+    cursor: pointer;
+}
+  
+.custom-select-container::after {
+    content: '▼';
+    pointer-events: none;
+    font: normal normal normal 12px / 18px Verdana, sans-serif;
+    color: var(--gray-anchor-color);
+}
+
+.custom-select option {
+    color: var(--gray-anchor-color);
+    background-color: var(--background-color);
+    font: normal normal normal 12px / 18px Verdana, sans-serif;
+    padding: 5px;
+  }
+  
+  
