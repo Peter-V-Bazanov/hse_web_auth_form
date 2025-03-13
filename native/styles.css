@@ -10,6 +10,7 @@
     --background-active: #BBBBBB;
 
     --blue-anchor-color: #007BFF;
+    --gray-anchor-color: #333333;
 }
 
 html, body {
@@ -46,7 +47,13 @@ footer {
     gap: 8px;
     padding: 20px;
     background-color: var(--background-color);
+    color: var(--gray-anchor-color);
     font: normal normal normal 12px / 18px Verdana, sans-serif;
+}
+
+footer a{
+    text-decoration: none;
+    color: var(--gray-anchor-color);
 }
 
 h1 {
