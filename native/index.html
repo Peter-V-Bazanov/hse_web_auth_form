@@ -24,7 +24,12 @@
                     </div>
                     <form action="/hse_web_auth_form/dummy.html">
                         <input class="form-el text" type="text" placeholder="Email or Phone">
-                        <input class="form-el" type="password" placeholder="Password">
+
+                        <div class="password-container">
+                            <input id="passwordInput" class="" type="password" placeholder="Введите пароль">
+                            <button type="button" id="togglePassword" class="toggle-password">Show</button>
+                        </div>
+
                         <a class="form-el" href="dummy.html">Forgot password?</a>
                         <label class="form-el">
                             <input type="checkbox" name="keep_logged_in" value="yes">
