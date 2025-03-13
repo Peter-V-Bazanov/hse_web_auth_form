@@ -34,6 +34,7 @@ header {
 main {
     flex: 1; /* Занимает всё доступное пространство между header и footer */
     display: flex;
+    flex-direction: column;
     justify-content: center; /* Центрирование по горизонтали */
     align-items: center;     /* Центрирование по вертикали */
     background-color: var(--background-color);
@@ -76,6 +77,16 @@ h1 {
     border-radius: 10px;
     padding: 24px 16px 16px;
     width: 20vw;
+}
+
+.unite-now {
+    padding: 8px;
+    font: normal bold normal 14px / 14px Verdana, sans-serif;
+}
+
+.unite-now a {
+    text-decoration: none;
+    color: var(--blue-anchor-color);
 }
 
 form {
@@ -195,7 +206,7 @@ button.primary:focus {
 }
 
 .forgot-password {
-    font: normal bold normal 16px / 16px Verdana, sans-serif;
+    font: normal bold normal 14px / 14px Verdana, sans-serif;
     text-decoration: none;
     color: var(--blue-anchor-color);
 }
