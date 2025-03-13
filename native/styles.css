@@ -8,6 +8,8 @@
     --on-background-color: #000000;
     --background-hover: #EEEEEE;
     --background-active: #BBBBBB;
+
+    --blue-anchor-color: #007BFF;
 }
 
 html, body {
@@ -141,8 +143,7 @@ button.primary:focus {
     content: "";
     flex: 1;
     display: block;
-    border-bottom: 1px solid #ccc;
-    background: rgba(255, 0, 0, 0.1);
+    border-bottom: 1px solid var(--on-background-color);
 }
   
     .separator::before {
@@ -180,4 +181,9 @@ button.primary:focus {
     cursor: pointer;
     font-size: 0.75em;
     color: #007BFF;
+}
+
+.forgot-password {
+    font: normal bold normal 16px / 16px Verdana, sans-serif;
+    color: var(--blue-anchor-color);
 }
