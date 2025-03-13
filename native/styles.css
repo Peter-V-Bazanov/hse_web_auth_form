@@ -131,7 +131,9 @@ button.primary:focus {
     align-items: center;
     text-align: center;
     width: 100%;
-    margin: 10px 0; /* Отступы сверху и снизу для эстетики */
+    margin: 10px 0;
+
+    font: normal normal normal 14px / 21px Verdana, sans-serif;
   }
   
 .separator::before,
@@ -149,4 +151,9 @@ button.primary:focus {
   
 .separator::after {
     margin-left: 10px;
+}
+
+.text {
+    box-sizing: border-box;
+    padding: 8px;
 }
