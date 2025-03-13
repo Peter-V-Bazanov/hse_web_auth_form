@@ -23,16 +23,26 @@
                         <span>or</span>
                     </div>
                     <form action="/hse_web_auth_form/dummy.html">
-                        <input class="form-el" type="text" placeholder="Email or Phone">
-                        <input class="form-el" type="password" placeholder="Password">
-                        <a class="form-el" href="dummy.html">Forgot password?</a>
+                        <input class="form-el text" type="text" placeholder="Email or Phone">
+
+                        <div class="password-container">
+                            <input id="passwordInput" class="" type="password" placeholder="Введите пароль">
+                            <button type="button" id="togglePassword" class="toggle-password">Show</button>
+                        </div>
+
+                        <a class="form-el forgot-password" href="dummy.html">Forgot password?</a>
                         <label class="form-el">
                             <input type="checkbox" name="keep_logged_in" value="yes">
                             Keep me logged in
                         </label>
                         <button class="form-el form primary">Sign in</button>
                     </form>    
-                    </div>
+                </div>
+
+                <div class="unite-now">
+                    <p>New to ChaindUp? <a href="dummy.html">Unite now!</a></p>
+                </div>
+                
             </main>
 
             <footer>
@@ -44,17 +54,23 @@
                 <a href="dummy.html">Cookie Policy</a>
                 <a href="dummy.html">Copyright Policy</a>
                 <a href="dummy.html">Send Feedback</a>
-                <select>
-                    <option disabled>Choose language</option>
-                    <option>&#127468;&#127463; English</option>
-                    <option>&#127482;&#127480; American</option>
-                    <option>&#127464;&#127462; Canadian</option>
-                    <option> &#127462;&#127482; Australian</option>
-                    <option>&#127475;&#127487; New Zelandian</option>
-                </select>
+
+                <div class="custom-select-container">
+                    <select class="custom-select">
+                        <option disabled>Choose language</option>
+                        <option>&#127468;&#127463; English</option>
+                        <option>&#127482;&#127480; American</option>
+                        <option>&#127464;&#127462; Canadian</option>
+                        <option> &#127462;&#127482; Australian</option>
+                        <option>&#127475;&#127487; New Zelandian</option>
+                    </select>
+                </div>
+                
+
             </footer>
         </div>
         
+        <script src="script.js"></script>
     </body>
     
 </html>
