@@ -27,7 +27,7 @@ html, body {
 
 header {
     background-color: var(--background-color);
-    padding: 20px;
+    padding: 10px 20px;
     text-align: start;
 }
 
@@ -46,7 +46,7 @@ footer {
     justify-content: center;
     align-items: center;
     gap: 8px;
-    padding: 20px;
+    padding: 10px 20px;
     background-color: var(--background-color);
     color: var(--gray-anchor-color);
     font: normal normal normal 12px / 18px Verdana, sans-serif;
@@ -61,11 +61,6 @@ footer a:hover{
     background-color: var(--background-hover);
 }
 
-h1 {
-    font: normal bold normal 24px / 24px Verdana, sans-serif;
-    color: var(--on-background-color);
-}
-
 .card {
     display: flex;
     flex-direction: column;
@@ -75,8 +70,14 @@ h1 {
     
     border: 1px solid var(--on-background-color);
     border-radius: 10px;
-    padding: 24px 16px 16px;
+    padding: 16px;
     width: 20vw;
+}
+
+.card h1 {
+    font: normal bold normal 24px / 24px Verdana, sans-serif;
+    color: var(--on-background-color);
+    margin: 8px 0;
 }
 
 .unite-now {
