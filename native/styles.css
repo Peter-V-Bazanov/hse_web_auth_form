@@ -56,6 +56,10 @@ footer a{
     color: var(--gray-anchor-color);
 }
 
+footer a:hover{
+    background-color: var(--background-hover);
+}
+
 h1 {
     font: normal bold normal 24px / 24px Verdana, sans-serif;
     color: var(--on-background-color);
