@@ -157,3 +157,27 @@ button.primary:focus {
     box-sizing: border-box;
     padding: 8px;
 }
+
+.password-container {
+    width: 100%;
+    position: relative;
+    display: inline-block;
+  }
+  
+.password-container input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 60px 8px 8px;
+}
+  
+.toggle-password {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.75em;
+    color: #007BFF;
+}
