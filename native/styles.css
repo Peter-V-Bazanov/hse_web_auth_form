@@ -195,3 +195,7 @@ button.primary:focus {
     text-decoration: none;
     color: var(--blue-anchor-color);
 }
+
+label {
+    font: normal normal normal 14px / 21px Verdana, sans-serif;
+}
