@@ -185,5 +185,6 @@ button.primary:focus {
 
 .forgot-password {
     font: normal bold normal 16px / 16px Verdana, sans-serif;
+    text-decoration: none;
     color: var(--blue-anchor-color);
 }
