@@ -22,13 +22,15 @@
                     <div class="separator">
                         <span>or</span>
                     </div>
-                    <form action="dummy.html">
-                        <input class="form-el text" type="text" placeholder="Email or Phone">
+                    <form action="dummy.html" id="login_form">
+                        <fieldset name="login_and_password">
+                            <input class="form-el text" type="text" placeholder="Email or Phone">
 
-                        <div class="password-container">
-                            <input id="passwordInput" class="" type="password" placeholder="Введите пароль">
-                            <button type="button" id="togglePassword" class="toggle-password">Show</button>
-                        </div>
+                            <div class="password-container">
+                                <input id="passwordInput" class="" type="password" placeholder="Введите пароль">
+                                <button type="button" id="togglePassword" class="toggle-password">Show</button>
+                            </div>
+                        </fieldset>
 
                         <a class="form-el forgot-password" href="dummy.html">Forgot password?</a>
                         <label class="form-el">
