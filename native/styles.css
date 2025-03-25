@@ -149,6 +149,18 @@ button.primary:focus {
     outline-offset: 2px;
   }
 
+fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+    gap: 16px;
+}
+
+fieldset > *:not(:last-child) {
+    margin-bottom: 16px;
+}
+
+
 .separator {
     display: flex;
     flex-direction: row;
