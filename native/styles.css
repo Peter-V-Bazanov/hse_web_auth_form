@@ -57,7 +57,7 @@ footer a{
     color: var(--gray-anchor-color);
 }
 
-footer a:hover{
+a:hover{
     background-color: var(--background-hover);
 }
 
@@ -101,6 +101,10 @@ form {
 
 .form-el {
     width: 100%;
+}
+
+button {
+    cursor: pointer;
 }
 
 button.form {
@@ -216,6 +220,10 @@ fieldset > *:not(:last-child) {
     cursor: pointer;
     font-size: 0.75em;
     color: #007BFF;
+}
+
+.toggle-password:hover {
+    background-color: var(--background-hover);
 }
 
 .forgot-password {
