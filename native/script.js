@@ -1,19 +1,19 @@
 document.getElementById('togglePassword').addEventListener('click', function () {
-    const passwordInput = document.getElementById('passwordInput');
-    
-    let lang = localStorage.getItem('language');
-    togglePassword(lang);
+  const passwordInput = document.getElementById('passwordInput');
+
+  let lang = localStorage.getItem('language');
+  togglePasswordVisibility(lang, passwordInput, this);
 });
 
-async function togglePassword(lang) {
+async function togglePasswordVisibility(lang, input, scope) {
   const translations = await loadLanguage(lang);
 
   if (passwordInput.type === 'password') {
-    passwordInput.type = 'text';
-    this.textContent = translations["togglePasswordHide"];
+    input.type = 'text';
+    scope.textContent = translations["togglePasswordHide"];
   } else {
-    passwordInput.type = 'password';
-    this.textContent = translations["togglePasswordShow"];
+    input.type = 'password';
+    scope.textContent = translations["togglePasswordShow"];
   }
 }
 
