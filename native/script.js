@@ -35,9 +35,38 @@ async function applyLanguage(lang) {
       }
   });
 
+  // Сохраняем установленный язык в localStorage
   localStorage.setItem('language', lang);
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+  const languageSelect = document.getElementById('languageSelect');
+  const supportedLangs = ['en', 'ru'];
+
+  // Пытаемся получить сохранённый язык из localStorage
+  let lang = localStorage.getItem('language');
+
+  // Если язык не сохранён ранее, то определяем язык браузера
+  if (!lang) {
+      lang = (navigator.language || navigator.userLanguage).slice(0, 2); // "en-GB" "en-US"
+      if (!supportedLangs.includes(lang)) {
+          lang = 'en'; // Язык по умолчанию
+      }
+  }
+
+  // Устанавливаем выбранный язык в выпадающем списке
+  languageSelect.value = lang;
+
+  // Применяем язык на странице
+  applyLanguage(lang);
+
+  // Устанавливаем слушатель изменения выбора языка пользователем
+  languageSelect.addEventListener('change', (e) => {
+      const selectedLang = e.target.value;
+      localStorage.setItem('language', selectedLang); // Сохраняем выбранный язык
+      applyLanguage(selectedLang);
+  });
+});
 
 
   
