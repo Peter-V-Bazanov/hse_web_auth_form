@@ -1,20 +1,31 @@
-document.getElementById('togglePassword').addEventListener('click', function () {
-  const passwordInput = document.getElementById('passwordInput');
+const dataI18n = "data-i18n";
+const dataI18nPlaceholder = dataI18n + "-placeholder";
 
-  let lang = localStorage.getItem('language');
-  togglePasswordVisibility(lang, passwordInput, this);
+document.getElementById('togglePassword').addEventListener('click', function () {
+  togglePasswordVisibility(lang);
 });
 
-async function togglePasswordVisibility(lang, input, scope) {
-  const translations = await loadLanguage(lang);
+function togglePasswordVisibility(lang) {
+  let lang = localStorage.getItem('language');
+  const passwordInput = document.getElementById('passwordInput');
+  const togglePasswordElement = document.getElementById('togglePassword');
 
   if (passwordInput.type === 'password') {
-    input.type = 'text';
-    scope.textContent = translations["togglePasswordHide"];
+    passwordInput.type = 'text';
+    togglePasswordElement.setAttribute(dataI18n, 'togglePasswordHide');
   } else {
-    input.type = 'password';
-    scope.textContent = translations["togglePasswordShow"];
+    passwordInput.type = 'password';
+    togglePasswordElement.setAttribute(dataI18n, 'togglePasswordShow');
   }
+
+  setPasswordButtonText(lang);
+}
+
+async function setPasswordButtonText(lang) {
+  const translations = await loadLanguage(lang);
+  const togglePasswordElement = document.getElementById('togglePassword');
+  const key = togglePasswordElement.getAttribute(dataI18n);
+  togglePasswordElement.innerText = translations[key];
 }
 
 async function loadLanguage(lang) {
