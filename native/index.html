@@ -16,33 +16,34 @@
             </header>
             <main>
                 <div class="card">
-                    <h1>Sign in</h1>
-                    <button class="form background">&#x1F34F; Continue with Google</button>
-                    <button class="form background">&#x1F34E; Sign in with Apple</button>
+                    <h1 data-i18n="signIn">Sign in</h1>
+                    <button data-i18n="continueGoogle" class="form background">&#x1F34F; Continue with Google</button>
+                    <button data-i18n="continueApple" class="form background">&#x1F34E; Sign in with Apple</button>
                     <div class="separator">
                         <span>or</span>
                     </div>
                     <form action="dummy.html" id="login_form">
                         <fieldset name="login_and_password">
-                            <input class="form-el text" type="text" placeholder="Email or Phone">
+                            <input data-i18n-placeholder="emailPhone" class="form-el text" type="text" placeholder="Email or Phone">
 
                             <div class="password-container">
-                                <input id="passwordInput" class="" type="password" placeholder="Password">
-                                <button type="button" id="togglePassword" class="toggle-password">Show</button>
+                                <input data-i18n-placeholder="passwordPlaceholder" id="passwordInput" class="" type="password" placeholder="Password">
+                                <button data-i18n="togglePassword" type="button" id="togglePassword" class="toggle-password">Show</button>
                             </div>
                         </fieldset>
 
-                        <a class="form-el forgot-password" href="dummy.html">Forgot password?</a>
-                        <label class="form-el">
+                        <a data-i18n="forgotPassword" class="form-el forgot-password" href="dummy.html">Forgot password?</a>
+                        <label data-i18n="keepLoggedIn" class="form-el">
                             <input type="checkbox" name="keep_logged_in" value="yes">
                             Keep me logged in
                         </label>
-                        <button class="form-el form primary">Sign in</button>
+                        <button data-i18n="signIn" class="form-el form primary">Sign in</button>
                     </form>    
                 </div>
 
                 <div class="unite-now">
-                    <p>New to ChaindUp? <a href="dummy.html">Unite now!</a></p>
+                    <span data-i18n="newTo">New to ChaindUp?</span>
+                    <a data-i18n="uniteNow" href="dummy.html">Unite now!</a>
                 </div>
                 
             </main>
@@ -50,25 +51,19 @@
             <footer>
                 <img src="logo_64x16_black.svg" alt="ChainedUp">
                 <span>&copy;2025</span>
-                <a href="dummy.html">User Agreement</a>
-                <a href="dummy.html">Privacy Policy</a>
-                <a href="dummy.html">Community Guidelines</a>
-                <a href="dummy.html">Cookie Policy</a>
-                <a href="dummy.html">Copyright Policy</a>
-                <a href="dummy.html">Send Feedback</a>
+                <a data-i18n="userAgreement" href="dummy.html">User Agreement</a>
+                <a data-i18n="privacyPolicy" href="dummy.html">Privacy Policy</a>
+                <a data-i18n="communityGuidelines" href="dummy.html">Community Guidelines</a>
+                <a data-i18n="cookiePolicy" href="dummy.html">Cookie Policy</a>
+                <a data-i18n="copyrightPolicy" href="dummy.html">Copyright Policy</a>
+                <a data-i18n="sendFeedback" href="dummy.html">Send Feedback</a>
 
                 <div class="custom-select-container">
                     <select class="custom-select">
-                        <option disabled>Choose language</option>
-                        <option>&#127468;&#127463; English</option>
-                        <option>&#127482;&#127480; American</option>
-                        <option>&#127464;&#127462; Canadian</option>
-                        <option> &#127462;&#127482; Australian</option>
-                        <option>&#127475;&#127487; New Zelandian</option>
+                        <option>Russian (Русский)</option>
+                        <option>English (English)</option>
                     </select>
                 </div>
-                
-
             </footer>
         </div>
         
