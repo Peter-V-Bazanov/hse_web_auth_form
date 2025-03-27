@@ -2,10 +2,10 @@ const dataI18n = "data-i18n";
 const dataI18nPlaceholder = dataI18n + "-placeholder";
 
 document.getElementById('togglePassword').addEventListener('click', function () {
-  togglePasswordVisibility(lang);
+  togglePasswordVisibility();
 });
 
-function togglePasswordVisibility(lang) {
+function togglePasswordVisibility() {
   let lang = localStorage.getItem('language');
   const passwordInput = document.getElementById('passwordInput');
   const togglePasswordElement = document.getElementById('togglePassword');
