@@ -10,4 +10,10 @@ document.getElementById('togglePassword').addEventListener('click', function () 
       this.textContent = 'Show';
     }
   });
+
+  async function loadLanguage(lang) {
+    const response = await fetch(`${lang}.json`);
+    return await response.json();
+}
+ 
   
