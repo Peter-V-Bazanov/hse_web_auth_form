@@ -13,7 +13,7 @@ async function togglePassword(lang) {
     this.textContent = translations["togglePasswordHide"];
   } else {
     passwordInput.type = 'password';
-    this.textContent = translations["togglePassword"];
+    this.textContent = translations["togglePasswordShow"];
   }
 }
 
