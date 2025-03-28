@@ -276,6 +276,44 @@ label {
     background-color: var(--background-color);
     font: normal normal normal 12px / 18px Verdana, sans-serif;
     padding: 5px;
+}
+  
+@keyframes pingPongFill {
+    0% {
+      background-position: left;
+      background-size: 0% 100%;
+    }
+    25% {
+      background-position: left;
+      background-size: 100% 100%;
+    }
+    25.01% {
+      background-position: right;
+      background-size: 100% 100%
+    }
+    50% {
+      background-position: right;
+      background-size: 0% 100%
+    }
+    75% {
+      background-position: right;
+      background-size: 100% 100%
+    }
+    75.01% {
+      background-position: left;
+      background-size: 100% 100%
+    }
+    100% {
+      background-position: left;
+      background-size: 0% 100%
+    }
   }
   
-  
+.animationPingPongFill {
+    animation: pingPongFill 2s ease infinite;
+    background-image: linear-gradient(rgba(255, 0, 0, 0.2), rgba(255, 0, 0, 0.2));
+    background-repeat: no-repeat;
+    background-size: 0% 100%;
+    background-position: left;
+    border: 2px solid red;
+  }
