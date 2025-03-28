@@ -78,12 +78,17 @@ document.addEventListener('DOMContentLoaded', () => {
   applyLanguage(lang);
 
   // Устанавливаем слушатель изменения выбора языка пользователем
-  languageSelect.addEventListener('change', (e) => {
-      const selectedLang = e.target.value;
-      localStorage.setItem('language', selectedLang); // Сохраняем выбранный язык
-      applyLanguage(selectedLang);
-  });
+  setupLanguageSelect();
 });
 
+function setupLanguageSelect() {
+  const languageSelect = document.getElementById('languageSelect');
+
+  languageSelect.addEventListener('change', (e) => {
+    const selectedLang = e.target.value;
+    localStorage.setItem('language', selectedLang); // Сохраняем выбранный язык
+    applyLanguage(selectedLang);
+  });
+}
 
   
