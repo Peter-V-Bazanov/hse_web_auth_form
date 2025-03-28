@@ -118,8 +118,8 @@ document.getElementById('login_form').addEventListener('submit', function (e) {
 
   if (!emailOrPhoneRegex.test(value)) {
     e.preventDefault(); // остановить отправку формы
-    input.classList.remove('input-error'); // сброс, чтобы перезапустить анимацию
+    input.classList.remove('animationPingPongFill'); // сброс, чтобы перезапустить анимацию
     void input.offsetWidth; // триггер перерисовки
-    input.classList.add('input-error');
+    input.classList.add('animationPingPongFill');
   }
 });
