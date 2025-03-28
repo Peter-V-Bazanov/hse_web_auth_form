@@ -283,11 +283,15 @@ label {
       background-position: left;
       background-size: 0% 100%;
     }
-    25% {
+    10% {
+        background-position: left;
+        background-size: 0% 100%;
+    }
+    30% {
       background-position: left;
       background-size: 100% 100%;
     }
-    25.01% {
+    30.01% {
       background-position: right;
       background-size: 100% 100%
     }
@@ -295,11 +299,15 @@ label {
       background-position: right;
       background-size: 0% 100%
     }
-    75% {
+    60% {
+        background-position: right;
+        background-size: 0% 100%
+    }
+    80% {
       background-position: right;
       background-size: 100% 100%
     }
-    75.01% {
+    80.01% {
       background-position: left;
       background-size: 100% 100%
     }
@@ -310,8 +318,10 @@ label {
   }
   
 .animationPingPongFill {
-    animation: pingPongFill 2s ease infinite;
-    background-image: linear-gradient(rgba(255, 0, 0, 0.2), rgba(255, 0, 0, 0.2));
+    animation: pingPongFill 4s linear infinite;
+    background-image: repeating-linear-gradient(to right, 
+    rgba(255, 0, 0, 0.2), 
+    rgba(255, 0, 0, 0.2));
     background-repeat: no-repeat;
     background-size: 0% 100%;
     background-position: left;
