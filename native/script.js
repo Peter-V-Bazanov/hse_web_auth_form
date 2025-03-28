@@ -111,4 +111,15 @@ function setupAppleButton() {
   }
 }
 
-  
+document.getElementById('login_form').addEventListener('submit', function (e) {
+  const input = e.target.querySelector('input[type="text"]');
+  const value = input.value.trim();
+  const emailOrPhoneRegex = /^((\+\d{1,3}\d{7,12})|(8\d{10})|[^@\s]+@[^@\s]+\.[^@\s]+)$/;
+
+  if (!emailOrPhoneRegex.test(value)) {
+    e.preventDefault(); // остановить отправку формы
+    input.classList.remove('input-error'); // сброс, чтобы перезапустить анимацию
+    void input.offsetWidth; // триггер перерисовки
+    input.classList.add('input-error');
+  }
+});
