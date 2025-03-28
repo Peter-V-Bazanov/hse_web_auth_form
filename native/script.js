@@ -80,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Устанавливаем слушатель изменения выбора языка пользователем
   setupLanguageSelect();
   setupGoogleButton();
+  setupAppleButton();
 });
 
 function setupLanguageSelect() {
@@ -96,6 +97,15 @@ function setupGoogleButton() {
   const googleBtn = document.querySelector('button[data-i18n="continueGoogle"]');
   if (googleBtn) {
     googleBtn.addEventListener("click", () => {
+      window.location.href = "dummy.html";
+    });
+  }
+}
+
+function setupAppleButton() {
+  const appleBtn = document.querySelector('button[data-i18n="continueApple"]');
+  if (appleBtn) {
+    appleBtn.addEventListener("click", () => {
       window.location.href = "dummy.html";
     });
   }
