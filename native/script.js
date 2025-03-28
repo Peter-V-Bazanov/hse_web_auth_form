@@ -79,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Устанавливаем слушатель изменения выбора языка пользователем
   setupLanguageSelect();
+  setupGoogleButton();
 });
 
 function setupLanguageSelect() {
@@ -89,6 +90,15 @@ function setupLanguageSelect() {
     localStorage.setItem('language', selectedLang); // Сохраняем выбранный язык
     applyLanguage(selectedLang);
   });
+}
+
+function setupGoogleButton() {
+  const googleBtn = document.querySelector('button[data-i18n="continueGoogle"]');
+  if (googleBtn) {
+    googleBtn.addEventListener("click", () => {
+      window.location.href = "dummy.html";
+    });
+  }
 }
 
   
