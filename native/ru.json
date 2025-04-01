@@ -15,6 +15,11 @@
     "communityGuidelines": "Правила сообщества",
     "cookiePolicy": "Политика cookies",
     "copyrightPolicy": "Политика авторского права",
-    "sendFeedback": "Отправить отзыв"
+    "sendFeedback": "Отправить отзыв",
+    "passwordWrongErr": "Неверный пароль",
+    "emailFormatErr": "Неверный формат почты",
+    "emailWrongErr": "Неверный адрес почты",
+    "phoneFormatErr": "Неверный формат номера телефона",
+    "phoneWrongErr": "Неверный номер телефона"
   }
   
