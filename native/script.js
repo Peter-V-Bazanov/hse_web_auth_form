@@ -1,11 +1,11 @@
 const dataI18n = "data-i18n";
 const dataI18nPlaceholder = dataI18n + "-placeholder";
 const ET = Object.freeze({
-  PASSWORD_WRONG_ERR: "password_wrong_err",
-  EMAIL_FORMAT_ERR: "email_format_err",
-  EMAIL_WRONG_ERR: "email_wrong_err",
-  PHONE_FORMAT_ERR: "phone_format_err",
-  PHONE_WRONG_ERR: "phone_wrong_err",
+  PASSWORD_WRONG_ERR: "passwordErongErr",
+  EMAIL_FORMAT_ERR: "emailFormatErr",
+  EMAIL_WRONG_ERR: "emailWrongErr",
+  PHONE_FORMAT_ERR: "phoneFormatErr",
+  PHONE_WRONG_ERR: "phoneWrongErr",
 });
 
 
