@@ -8,10 +8,6 @@ const ET = Object.freeze({
   PHONE_WRONG_ERR: "phone_wrong_err",
 });
 
-const EE = Object.freeze({
-
-})
-
 
 document.getElementById('togglePassword').addEventListener('click', function () {
   togglePasswordVisibility();
