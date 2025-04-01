@@ -1,12 +1,16 @@
 const dataI18n = "data-i18n";
 const dataI18nPlaceholder = dataI18n + "-placeholder";
 const ET = Object.freeze({
-  PASSWORD_WRONG_ERR: "PASSWORD_WRONG_ERR",
-  EMAIL_FORMAT_ERR: "EMAIL_FORMAT_ERR",
-  EMAIL_WRONG_ERR: "EMAIL_WRONG_ERR",
-  PHONE_FORMAT_ERR: "PHONE_FORMAT_ERR",
-  PHONE_WRONG_ERR: "PHONE_WRONG_ERR",
+  PASSWORD_WRONG_ERR: "password_wrong_err",
+  EMAIL_FORMAT_ERR: "email_format_err",
+  EMAIL_WRONG_ERR: "email_wrong_err",
+  PHONE_FORMAT_ERR: "phone_format_err",
+  PHONE_WRONG_ERR: "phone_wrong_err",
 });
+
+const EE = Object.freeze({
+
+})
 
 
 document.getElementById('togglePassword').addEventListener('click', function () {
@@ -134,4 +138,21 @@ document.getElementById('login_form').addEventListener('submit', function (e) {
   } 
 });
 
+async function formError (scope, errorType) {
+  let lang = localStorage.getItem('language');
+  const translations = await loadLanguage(lang);
+  const errorMessage = translations(errorType);
+  const errorElement = errorType.split("_"[0]);
+  let errorAtr = 'password';
 
+  if (errorElement != "password") {
+    errorAtr = 'login'
+  }
+  
+  showErrorMessage(scope.target.querySelector(`[${dataI18n}='${errorAtr}ErrorField]`), errorMessage);
+}
+
+function showErrorMessage(scope, errorMessage){
+  scope.style.visibility = 'visible';
+  scope.innerText = errorMessage;
+}
