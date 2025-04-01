@@ -1,5 +1,13 @@
 const dataI18n = "data-i18n";
 const dataI18nPlaceholder = dataI18n + "-placeholder";
+const ET = Object.freeze({
+  PASSWORD_WRONG_ERR: "PASSWORD_WRONG_ERR",
+  EMAIL_FORMAT_ERR: "EMAIL_FORMAT_ERR",
+  EMAIL_WRONG_ERR: "EMAIL_WRONG_ERR",
+  PHONE_FORMAT_ERR: "PHONE_FORMAT_ERR",
+  PHONE_WRONG_ERR: "PHONE_WRONG_ERR",
+});
+
 
 document.getElementById('togglePassword').addEventListener('click', function () {
   togglePasswordVisibility();
@@ -77,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Применяем язык на странице
   applyLanguage(lang);
 
-  // Устанавливаем слушатель изменения выбора языка пользователем
+  // Устанавливаем слушатели
   setupLanguageSelect();
   setupGoogleButton();
   setupAppleButton();
@@ -113,13 +121,17 @@ function setupAppleButton() {
 
 document.getElementById('login_form').addEventListener('submit', function (e) {
   const input = e.target.querySelector('input[type="text"]');
-  const value = input.value.trim();
+  const passwordValue = input.value.trim();
   const emailOrPhoneRegex = /^((\+\d{1,3}\d{7,12})|(8\d{10})|[^@\s]+@[^@\s]+\.[^@\s]+)$/;
+  const mockEmail = "pvbazanov@gmail.com";
+  const mockPhone = "9523315516";
 
-  if (!emailOrPhoneRegex.test(value)) {
+  if (!emailOrPhoneRegex.test(passwordValue)) {
     e.preventDefault(); // остановить отправку формы
     input.classList.remove('animationPingPongFill'); // сброс, чтобы перезапустить анимацию
     void input.offsetWidth; // триггер перерисовки
     input.classList.add('animationPingPongFill');
-  }
+  } 
 });
+
+
