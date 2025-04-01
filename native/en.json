@@ -15,6 +15,11 @@
     "communityGuidelines": "Community Guidelines",
     "cookiePolicy": "Cookie Policy",
     "copyrightPolicy": "Copyright Policy",
-    "sendFeedback": "Send Feedback"
+    "sendFeedback": "Send Feedback",
+    "passwordWrongErr": "Wrong password",
+    "emailFormatErr": "Wrong e-mail format",
+    "emailWrongErr": "Wrong e-mail address",
+    "phoneFormatErr": "Wrong phone number format",
+    "phoneWrongErr": "Wrong phone  number"
   }
   
