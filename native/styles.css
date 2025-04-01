@@ -325,5 +325,6 @@ label {
     background-repeat: no-repeat;
     background-size: 0% 100%;
     background-position: left;
+    background-color: rgba(255, 0, 0, 0.1);
     border: 2px solid red;
   }
