@@ -155,15 +155,14 @@ button.primary:focus {
 
 fieldset {
     border: none;
-    margin: 0;
+    margin: 0 0 16px 0;
     padding: 0;
     gap: 16px;
 }
 
 fieldset > *:not(:last-child) {
-    margin-bottom: 16px;
+    margin-bottom: 0px;
 }
-
 
 .separator {
     display: flex;
@@ -172,7 +171,7 @@ fieldset > *:not(:last-child) {
     align-items: center;
     text-align: center;
     width: 100%;
-    margin: 10px 0;
+    margin: 0px 0;
 
     font: normal normal normal 14px / 21px Verdana, sans-serif;
   }
@@ -331,4 +330,6 @@ label {
 
   .errorField {
     visibility: hidden;
+    font: normal normal normal 0.8em Verdana, sans-serif;
+    color: var(--primary-color);
   }
