@@ -73,7 +73,7 @@ a:hover{
     border: 1px solid var(--on-background-color);
     border-radius: 10px;
     padding: 16px;
-    width: 20vw;
+    width: 300px;
 }
 
 .card h1 {
