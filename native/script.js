@@ -148,6 +148,8 @@ document.getElementById('login_form').addEventListener('submit', function (event
     passwordResult = processPassword(passwordValue.trim());
     if (passwordResult != ET.PASSWORD_OK) { // Если пароль неверный или пустой, отображаем сообщение об ошибке
       formError(event, inputPassword, passwordResult);
+    } else {
+      saveLoginData(loginValue, passwordValue);
     }
   } else { // Иначе отображаем сообщение об ошибке в поле логина пользователю
     formError(event, inputLogin, loginResult);
@@ -259,5 +261,18 @@ function processPassword(passwordInput) {
     return ET.PASSWORD_OK;
   } else {
     return ET.PASSWORD_WRONG;
+  }
+}
+
+function saveLoginData(loginValue, passwordValue) {
+  const chexbox = document.querySelector(`[name='keepLoggedIn']`);
+  if (chexbox.checked) {
+    localStorage.setItem('keepLoggedIn', 'yes');
+    localStorage.setItem('savedLogin', loginValue);
+    localStorage.setItem('savedPassword', passwordValue);
+  } else {
+    localStorage.setItem('keepLoggedIn', 'no');
+    localStorage.setItem('savedLogin', '');
+    localStorage.setItem('savedPassword', '');
   }
 }
