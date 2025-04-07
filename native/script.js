@@ -95,6 +95,11 @@ document.addEventListener('DOMContentLoaded', () => {
   setupLanguageSelect();
   setupGoogleButton();
   setupAppleButton();
+
+  // Устанавливаем значения полей логин/пароль, если они сохранены
+  if (setKeepLoggedInState()) {
+    setInputValues();
+  }
 });
 
 function setupLanguageSelect() { // Устанавливаем слушатель на селектор языка
@@ -275,4 +280,24 @@ function saveLoginData(loginValue, passwordValue) {
     localStorage.setItem('savedLogin', '');
     localStorage.setItem('savedPassword', '');
   }
+}
+
+function setKeepLoggedInState() {
+  let keepLoggedInState = localStorage.getItem('keepLoggedIn');
+  const chexbox = document.querySelector(`[name='keepLoggedIn']`);
+  if (keepLoggedInState === 'yes') {
+    chexbox.checked = true;
+  } else {
+    chexbox.checked = false;
+  }
+  return chexbox.checked;
+}
+
+function setInputValues() {
+  const inputLogin = document.querySelector(`[${dataI18nPlaceholder}='emailPhone']`);
+  const inputPassword = document.querySelector(`[${dataI18nPlaceholder}='passwordPlaceholder'`)
+  const loginValue = localStorage.getItem('savedLogin');
+  const passwordValue = localStorage.getItem('savedPassword');
+  inputLogin.value = loginValue;
+  inputPassword.value = passwordValue;
 }
