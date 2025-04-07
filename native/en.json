@@ -20,6 +20,7 @@
     "password_EmptyErr": "Password input field is empty",
     "email_FormatErr": "Wrong e-mail format",
     "email_WrongErr": "Wrong e-mail address",
+    "email_EmptyErr": "Login input field is empty",
     "phone_FormatErr": "Wrong phone number format",
     "phone_WrongErr": "Wrong phone  number",
     "phone_EmptyErr": "Login input field is empty"
