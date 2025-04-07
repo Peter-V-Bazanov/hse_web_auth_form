@@ -3,6 +3,8 @@
     --on-primary-color: #FFFFFF;
     --primary-hover: #8f2e3a;
     --primary-active: #72252e;
+    --primary-02: rgb(179, 57, 72, 0.2);
+    --primary-01: rgba(179, 57, 72, 0.1);
 
     --background-color: #FFFFFF;
     --on-background-color: #000000;
@@ -319,13 +321,13 @@ label {
 .animationPingPongFill {
     animation: pingPongFill 4s linear 1;
     background-image: repeating-linear-gradient(to right, 
-    rgba(255, 0, 0, 0.2), 
-    rgba(255, 0, 0, 0.2));
+    var(--primary-02), 
+    var(--primary-02));
     background-repeat: no-repeat;
     background-size: 0% 100%;
     background-position: left;
-    background-color: rgba(255, 0, 0, 0.1);
-    border: 2px solid red;
+    background-color: var(--primary-01);
+    border: 2px solid var(--primary-color);
   }
 
   .errorField {
