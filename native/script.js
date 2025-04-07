@@ -136,7 +136,7 @@ document.getElementById('login_form').addEventListener('submit', function (event
   const loginValue = inputLogin.value.trim(); // Достаём значение, введённое пользователем
   inputLogin.classList.remove('animationPingPongFill'); // Убираем визаульное выделение поля для актуального отображения
 
-  const inputPassword = event.target.querySelector(`[${dataI18nPlaceholder}='passwordPlaceholder'`)
+  const inputPassword = event.target.querySelector(`[${dataI18nPlaceholder}='passwordPlaceholder']`)
   const passwordValue = inputPassword.value.trim();
   inputPassword.classList.remove('animationPingPongFill');
 
@@ -225,6 +225,7 @@ function processPhoneNumber(rawInput) {
   if (rawInput === "") {
     return ET.PHONE_EMPTY;
   }
+  let plus = false;
 
   // Шаг 1: Удаляем все символы, кроме цифр и знака +
   // Сначала оставляем только цифры и плюс
@@ -232,6 +233,7 @@ function processPhoneNumber(rawInput) {
   
   // Если плюс встречается не в начале, удаляем его
   if (cleanedPhoneNumber.charAt(0) === '+') {
+    plus = true;
     cleanedPhoneNumber = '+' + cleanedPhoneNumber.slice(1).replace(/\+/g, '');
   } else {
     // Если первый символ не '+', то удаляем все плюсы
@@ -240,13 +242,13 @@ function processPhoneNumber(rawInput) {
   
   // Проверяем соответствие регулярному выражению
   // 11 символов, первый символ 8 или +, далее 10 цифр
-  const phoneRegex = /^(?:8|\+)\d{10}$/;
+  const phoneRegex = /^(?:8|\+7)\d{10}$/;
   if (!phoneRegex.test(cleanedPhoneNumber)) {
     return ET.PHONE_FORMAT;
   }
   
   // Удаляем первый символ и сравниваем с мок номером
-  cleanedPhoneNumber = cleanedPhoneNumber.slice(1);
+  cleanedPhoneNumber = plus ? cleanedPhoneNumber.slice(2) : cleanedPhoneNumber.slice(1); 
   const mockPhoneNumber = "9523315527";
   if (cleanedPhoneNumber === mockPhoneNumber) {
     return ET.PHONE_OK;
