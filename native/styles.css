@@ -301,7 +301,9 @@ label {
     .nav-dropdown {
         display: block;
     }
-    .card
+    .card {
+        width: 36 rem;
+    }
 }
 
   
