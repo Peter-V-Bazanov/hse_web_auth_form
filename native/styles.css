@@ -304,6 +304,10 @@ label {
     .card {
         width: 34 rem;
     }
+
+    .card h1 {
+        color: blue;
+    }
 }
 
   
