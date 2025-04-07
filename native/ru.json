@@ -20,6 +20,7 @@
     "password_EmptyErr": "Поле ввода пароля пустое",
     "email_FormatErr": "Неверный формат почты",
     "email_WrongErr": "Неверный адрес почты",
+    "email_EmptyErr": "Поле ввода логина пустое",
     "phone_FormatErr": "Неверный формат номера телефона",
     "phone_WrongErr": "Неверный номер телефона",
     "phone_EmptyErr": "Поле ввода логина пустое"
