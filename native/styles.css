@@ -294,7 +294,7 @@ label {
     }
 }
 
-@media (max-width: 40rem) {
+@media (max-width: 36rem) {
     .nav-links {
         display: none;
       }
@@ -302,7 +302,7 @@ label {
         display: block;
     }
     .card {
-        width: 36 rem;
+        width: 34 rem;
     }
 }
 
