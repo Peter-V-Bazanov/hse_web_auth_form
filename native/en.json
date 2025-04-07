@@ -17,11 +17,11 @@
     "copyrightPolicy": "Copyright Policy",
     "sendFeedback": "Send Feedback",
     "password_WrongErr": "Wrong password",
-    "password_EmptyErr": "Input field is empty",
+    "password_EmptyErr": "Password input field is empty",
     "email_FormatErr": "Wrong e-mail format",
     "email_WrongErr": "Wrong e-mail address",
     "phone_FormatErr": "Wrong phone number format",
     "phone_WrongErr": "Wrong phone  number",
-    "phone_EmptyErr": "Input field is empty"
+    "phone_EmptyErr": "Login input field is empty"
   }
   
