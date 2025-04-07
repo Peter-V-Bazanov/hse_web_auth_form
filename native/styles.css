@@ -11,7 +11,7 @@
     --background-hover: #EEEEEE;
     --background-active: #BBBBBB;
 
-    --blue-anchor-color: #007BFF;
+    --blue-anchor-color: #005ec3;
     --gray-anchor-color: #333333;
 }
 
@@ -133,7 +133,7 @@ button.background:active {
 }
 
 button.background:focus {
-    outline: 2px solid #3b99fc;
+    outline: 2px solid var(--blue-anchor-color);
     outline-offset: 2px;
   }
 
@@ -151,7 +151,7 @@ button.primary:active {
 }
 
 button.primary:focus {
-    outline: 2px solid #3b99fc;
+    outline: 2px solid var(--blue-anchor-color);
     outline-offset: 2px;
   }
 
@@ -220,7 +220,7 @@ fieldset > *:not(:last-child) {
     border: none;
     cursor: pointer;
     font-size: 0.75em;
-    color: #007BFF;
+    color: var(--blue-anchor-color);
 }
 
 .toggle-password:hover {
