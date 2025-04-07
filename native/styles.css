@@ -25,6 +25,7 @@ html, body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    min-width: 600px;
 }
 
 header {
@@ -277,6 +278,19 @@ label {
     background-color: var(--background-color);
     font: normal normal normal 12px / 18px Verdana, sans-serif;
     padding: 5px;
+}
+
+.nav-dropdown {
+    display: none;
+}
+  
+@media (max-width: 1250px) {
+    .nav-links {
+      display: none;
+    }
+    .nav-dropdown {
+      display: block;
+    }
 }
   
 @keyframes pingPongFill {

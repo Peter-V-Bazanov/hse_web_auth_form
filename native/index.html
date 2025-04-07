@@ -52,12 +52,26 @@
             <footer>
                 <img src="logo_64x16_black.svg" alt="ChainedUp">
                 <span>&copy;2025</span>
-                <a data-i18n="userAgreement" href="dummy.html">User Agreement</a>
-                <a data-i18n="privacyPolicy" href="dummy.html">Privacy Policy</a>
-                <a data-i18n="communityGuidelines" href="dummy.html">Community Guidelines</a>
-                <a data-i18n="cookiePolicy" href="dummy.html">Cookie Policy</a>
-                <a data-i18n="copyrightPolicy" href="dummy.html">Copyright Policy</a>
-                <a data-i18n="sendFeedback" href="dummy.html">Send Feedback</a>
+                <nav class="nav-links">
+                    <a data-i18n="userAgreement" href="dummy.html">User Agreement</a>
+                    <a data-i18n="privacyPolicy" href="dummy.html">Privacy Policy</a>
+                    <a data-i18n="communityGuidelines" href="dummy.html">Community Guidelines</a>
+                    <a data-i18n="cookiePolicy" href="dummy.html">Cookie Policy</a>
+                    <a data-i18n="copyrightPolicy" href="dummy.html">Copyright Policy</a>
+                    <a data-i18n="sendFeedback" href="dummy.html">Send Feedback</a>
+                </nav>
+                
+                <div class="nav-dropdown custom-select-container">
+                    <select class="custom-select" onchange="if(this.value) window.location.href=this.value">
+                        <option value="">Выберите ссылку</option>
+                        <option data-i18n="userAgreement" value="dummy.html">User Agreement</option>
+                        <option data-i18n="privacyPolicy" value="dummy.html">Privacy Policy</option>
+                        <option data-i18n="communityGuidelines" value="dummy.html">Community Guidelines</option>
+                        <option data-i18n="cookiePolicy" value="dummy.html">Cookie Policy</option>
+                        <option data-i18n="copyrightPolicy" value="dummy.html">Copyright Policy</option>
+                        <option data-i18n="sendFeedback" value="dummy.html">Send Feedback</option>
+                    </select>
+                </div>
 
                 <div class="custom-select-container">
                     <select class="custom-select" id="languageSelect">
