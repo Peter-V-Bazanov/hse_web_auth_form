@@ -127,8 +127,10 @@ function setupAppleButton() {
 document.getElementById('login_form').addEventListener('submit', function (event) {
   const inputLogin = event.target.querySelector(`[${dataI18nPlaceholder}='emailPhone']`);
   const loginValue = inputLogin.value.trim();
+  inputLogin.classList.remove('animationPingPongFill');
   const inputPassword = event.target.querySelector(`[${dataI18nPlaceholder}='passwordPlaceholder'`)
   const passwordValue = inputPassword.value.trim();
+  inputPassword.classList.remove('animationPingPongFill');
 
   let loginResult = "";
   let passwordResult ="";
@@ -179,7 +181,7 @@ async function showErrorMessage(element, errorType){
 
 function showErrorAnimation(element){
   element.classList.remove('animationPingPongFill'); // сброс, чтобы перезапустить анимацию
-  void element.offsetWidth; // триггер перерисовки
+  //void element.offsetWidth; // триггер перерисовки
   element.classList.add('animationPingPongFill');
 }
 
