@@ -6,6 +6,7 @@ const ET = Object.freeze({
   PASSWORD_OK: "password_Ok",
   EMAIL_FORMAT: "email_FormatErr",
   EMAIL_WRONG: "email_WrongErr",
+  EMAIL_EMPTY: "email_EmptyErr",
   EMAIL_OK: "email_Ok",
   PHONE_FORMAT: "phone_FormatErr",
   PHONE_WRONG: "phone_WrongErr",
@@ -191,6 +192,10 @@ function isEmail(rawInput) {
 }
 
 function processEmail(emailInput) {
+  if (emailInput === "") {
+    return ET.EMAIL_EMPTY;
+  }
+
   mockEmail = "chain@ed.up";
   const emailRegex = /^(?!.*\.\.)(?:[A-Za-z]|[A-Za-z](?:[A-Za-z0-9_-]|\.(?!\.))*[A-Za-z0-9])@(?:[A-Za-z0-9]|[A-Za-z0-9](?:[A-Za-z0-9]|\.(?!\.))*[A-Za-z0-9])$/;
   if (!emailRegex.test(emailInput)) {
@@ -205,6 +210,10 @@ function processEmail(emailInput) {
 }
 
 function processPhoneNumber(rawInput) {
+  if (rawInput === "") {
+    return ET.PHONE_EMPTY;
+  }
+
   // Шаг 1: Удаляем все символы, кроме цифр и знака +
   // Сначала оставляем только цифры и плюс
   let cleanedPhoneNumber = rawInput.replace(/[^\d+]/g, '');
