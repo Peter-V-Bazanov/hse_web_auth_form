@@ -1,11 +1,16 @@
 const dataI18n = "data-i18n";
 const dataI18nPlaceholder = dataI18n + "-placeholder";
 const ET = Object.freeze({
-  PASSWORD_WRONG_ERR: "passwordErongErr",
-  EMAIL_FORMAT_ERR: "emailFormatErr",
-  EMAIL_WRONG_ERR: "emailWrongErr",
-  PHONE_FORMAT_ERR: "phoneFormatErr",
-  PHONE_WRONG_ERR: "phoneWrongErr",
+  PASSWORD_WRONG: "password_WrongErr",
+  PASSWORD_EMTY: "password_EmptyErr",
+  PASSWORD_OK: "password_Ok",
+  EMAIL_FORMAT: "email_FormatErr",
+  EMAIL_WRONG: "email_WrongErr",
+  EMAIL_OK: "email_Ok",
+  PHONE_FORMAT: "phone_FormatErr",
+  PHONE_WRONG: "phone_WrongErr",
+  PHONE_EMPTY: "phone_EmptyErr",
+  PHONE_OK: "phone_Ok"   
 });
 
 
@@ -119,36 +124,124 @@ function setupAppleButton() {
   }
 }
 
-document.getElementById('login_form').addEventListener('submit', function (e) {
-  const input = e.target.querySelector('input[type="text"]');
-  const passwordValue = input.value.trim();
-  const emailOrPhoneRegex = /^((\+\d{1,3}\d{7,12})|(8\d{10})|[^@\s]+@[^@\s]+\.[^@\s]+)$/;
-  const mockEmail = "pvbazanov@gmail.com";
-  const mockPhone = "9523315516";
+document.getElementById('login_form').addEventListener('submit', function (event) {
+  const inputLogin = event.target.querySelector(`[${dataI18nPlaceholder}='emailPhone']`);
+  const loginValue = inputLogin.value.trim();
+  const inputPassword = event.target.querySelector(`[${dataI18nPlaceholder}='passwordPlaceholder'`)
+  const passwordValue = inputPassword.value.trim();
 
-  if (!emailOrPhoneRegex.test(passwordValue)) {
-    e.preventDefault(); // остановить отправку формы
-    input.classList.remove('animationPingPongFill'); // сброс, чтобы перезапустить анимацию
-    void input.offsetWidth; // триггер перерисовки
-    input.classList.add('animationPingPongFill');
-  } 
+  let loginResult = "";
+  let passwordResult ="";
+
+  if (isEmail(loginValue.trim())) {
+    loginResult = processEmail(loginValue.trim());
+  } else {
+    loginResult = processPhoneNumber(loginValue.trim());
+  }
+
+  if ((loginResult === ET.EMAIL_OK) || (loginResult === ET.PHONE_OK)) {
+    passwordResult = processPassword(passwordValue.trim());
+    if (passwordResult != ET.PASSWORD_OK) {
+      formError(event, inputPassword, passwordResult);
+    }
+  } else {
+    formError(event, inputLogin, loginResult);
+  }
+
+  if (passwordValue.trim() === "") {
+    formError(event, inputPassword, ET.PASSWORD_EMTY);
+  }
 });
 
-async function formError (scope, errorType) {
-  let lang = localStorage.getItem('language');
-  const translations = await loadLanguage(lang);
-  const errorMessage = translations(errorType);
-  const errorElement = errorType.split("_"[0]);
+function formError (event, element, errorType) {
+  event.preventDefault();
+
+  const errorPrefix = errorType.split("_")[0];
   let errorAtr = 'password';
 
-  if (errorElement != "password") {
+  if (errorPrefix != "password") {
     errorAtr = 'login'
   }
   
-  showErrorMessage(scope.target.querySelector(`[${dataI18n}='${errorAtr}ErrorField]`), errorMessage);
+  showErrorMessage(document.getElementById(`${errorAtr}ErrorField`), errorType);
+  showErrorAnimation(element);
 }
 
-function showErrorMessage(scope, errorMessage){
-  scope.style.visibility = 'visible';
-  scope.innerText = errorMessage;
+async function showErrorMessage(element, errorType){
+  let lang = localStorage.getItem('language');
+  const translations = await loadLanguage(lang);
+  const errorMessage = translations[errorType];
+  
+  element.setAttribute(dataI18n, errorType);
+  element.innerText = errorMessage;
+  element.style.visibility = 'visible';
+}
+
+function showErrorAnimation(element){
+  element.classList.remove('animationPingPongFill'); // сброс, чтобы перезапустить анимацию
+  void element.offsetWidth; // триггер перерисовки
+  element.classList.add('animationPingPongFill');
+}
+
+function isEmail(rawInput) {
+  const regex = /[A-Za-z.@_]/;
+  return regex.test(rawInput);
+}
+
+function processEmail(emailInput) {
+  mockEmail = "chain@ed.up";
+  const emailRegex = /^(?!.*\.\.)(?:[A-Za-z]|[A-Za-z](?:[A-Za-z0-9_-]|\.(?!\.))*[A-Za-z0-9])@(?:[A-Za-z0-9]|[A-Za-z0-9](?:[A-Za-z0-9]|\.(?!\.))*[A-Za-z0-9])$/;
+  if (!emailRegex.test(emailInput)) {
+    return ET.EMAIL_FORMAT;
+  } else {
+    if (emailInput === mockEmail){
+      return ET.EMAIL_OK;
+    } else {
+      return ET.EMAIL_WRONG;
+    }
+  }
+}
+
+function processPhoneNumber(rawInput) {
+  // Шаг 1: Удаляем все символы, кроме цифр и знака +
+  // Сначала оставляем только цифры и плюс
+  let cleanedPhoneNumber = rawInput.replace(/[^\d+]/g, '');
+  
+  // Если плюс встречается не в начале, удаляем его
+  if (cleanedPhoneNumber.charAt(0) === '+') {
+    cleanedPhoneNumber = '+' + cleanedPhoneNumber.slice(1).replace(/\+/g, '');
+  } else {
+    // Если первый символ не '+', то удаляем все плюсы
+    cleanedPhoneNumber = cleanedPhoneNumber.replace(/\+/g, '');
+  }
+  
+  // Шаг 2: Проверяем соответствие регулярному выражению
+  // Формат: ровно 11 символов, первый символ - 8 или +, далее 10 цифр
+  const phoneRegex = /^(?:8|\+)\d{10}$/;
+  if (!phoneRegex.test(cleanedPhoneNumber)) {
+    return ET.PHONE_FORMAT;
+  }
+  
+  // Шаг 3: Удаляем первый символ и сравниваем с мок номером
+  cleanedPhoneNumber = cleanedPhoneNumber.slice(1);
+  const mockPhoneNumber = "9523315527";
+  if (cleanedPhoneNumber === mockPhoneNumber) {
+    return ET.PHONE_OK;
+  } else {
+    return ET.PHONE_WRONG;
+  }
+}
+
+function processPassword(passwordInput) {
+  const mockPassword = "papassword:)"
+
+  if (passwordInput === "") {
+    return ET.PASSWORD_EMTY;
+  }
+
+  if (passwordInput === mockPassword) {
+    return ET.PASSWORD_OK;
+  } else {
+    return ET.PASSWORD_WRONG;
+  }
 }

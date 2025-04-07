@@ -24,8 +24,10 @@
                     </div>
                     <form action="dummy.html" id="login_form">
                         <fieldset name="login_and_password">
+                            <span class="errorField" id="loginErrorField" data-i18n="phone_EmptyErr">Input field is empty</span>
                             <input data-i18n-placeholder="emailPhone" class="form-el text" type="text" placeholder="Email or Phone">
-
+                            
+                            <span class="errorField" id="passwordErrorField" data-i18n="password_EmptyErr">Input field is empty</span>
                             <div class="password-container">
                                 <input data-i18n-placeholder="passwordPlaceholder" id="passwordInput" class="" type="password" placeholder="Password">
                                 <button data-i18n="togglePasswordShow" type="button" id="togglePassword" class="toggle-password">Show</button>

@@ -16,10 +16,12 @@
     "cookiePolicy": "Cookie Policy",
     "copyrightPolicy": "Copyright Policy",
     "sendFeedback": "Send Feedback",
-    "passwordWrongErr": "Wrong password",
-    "emailFormatErr": "Wrong e-mail format",
-    "emailWrongErr": "Wrong e-mail address",
-    "phoneFormatErr": "Wrong phone number format",
-    "phoneWrongErr": "Wrong phone  number"
+    "password_WrongErr": "Wrong password",
+    "password_EmptyErr": "Input field is empty",
+    "email_FormatErr": "Wrong e-mail format",
+    "email_WrongErr": "Wrong e-mail address",
+    "phone_FormatErr": "Wrong phone number format",
+    "phone_WrongErr": "Wrong phone  number",
+    "phone_EmptyErr": "Input field is empty"
   }
   
