@@ -17,11 +17,11 @@
     "copyrightPolicy": "Политика авторского права",
     "sendFeedback": "Отправить отзыв",
     "password_WrongErr": "Неверный пароль",
-    "password_EmptyErr": "Поле ввода пустое",
+    "password_EmptyErr": "Поле ввода пароля пустое",
     "email_FormatErr": "Неверный формат почты",
     "email_WrongErr": "Неверный адрес почты",
     "phone_FormatErr": "Неверный формат номера телефона",
     "phone_WrongErr": "Неверный номер телефона",
-    "phone_EmptyErr": "Поле ввода пустое"
+    "phone_EmptyErr": "Поле ввода логина пустое"
   }
   
