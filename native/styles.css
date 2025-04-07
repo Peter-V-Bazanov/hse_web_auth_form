@@ -294,7 +294,7 @@ label {
     }
 }
 
-@media (max-width: 36rem) {
+@media (max-width: 640px) {
     .nav-links {
         display: none;
       }
