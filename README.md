@@ -1,5 +1,5 @@
 <details>
-  <summary>**«Нативные» технологии**</summary>
+  <summary><b>«Нативные» технологии</b></summary>
   
 ## «Нативные» технологии (27+ баллов)
 Сайт можно открыть [**здесь**](https://peter-v-bazanov.github.io/hse_web_auth_form/native/index.html "пипипупу").
