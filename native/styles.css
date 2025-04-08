@@ -76,11 +76,11 @@ a:hover{
     border-radius: 10px;
     padding: 16px;
     width: 20vw;
-    max-width: 500px;
+    min-width: 260px;
 }
 
 .card h1 {
-    font: normal bold normal 24px / 24px Verdana, sans-serif;
+    font: normal bold normal 1.5rem / 1.5rem Verdana, sans-serif;
     color: var(--on-background-color);
     margin: 8px 0;
 }
@@ -286,7 +286,7 @@ label {
     display: none;
 }
   
-@media (max-width: 1250px) {
+@media (max-width: 78rem) {
     .nav-links {
       display: none;
     }
@@ -295,7 +295,7 @@ label {
     }
 }
 
-@media (max-width: 840px) {
+@media (max-width: 40rem) {
     .nav-links {
         display: none;
       }
@@ -303,12 +303,8 @@ label {
         display: block;
     }
     .card {
-        width: 90vw;
+        width: 75vw;
         max-width: 500px;
-    }
-
-    .card h1 {
-        color: blue;
     }
 }
 
