@@ -26,7 +26,7 @@ html, body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    min-width: 600px;
+    width: 100vw;
 }
 
 header {
@@ -59,6 +59,14 @@ footer {
 footer a{
     text-decoration: none;
     color: var(--gray-anchor-color);
+}
+
+.mini-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
 }
 
 a:hover{
@@ -292,6 +300,7 @@ label {
     .nav-dropdown {
       display: block;
     }
+
 }
 
 @media (max-width: 40rem) {
@@ -302,8 +311,21 @@ label {
         display: block;
     }
     .card {
+        padding: 8px;
+        gap: 8px;
         width: 75vw;
         max-width: 500px;
+    }
+    header {
+        padding: 5px 10px;
+    }
+    footer {
+        flex-direction: column;
+        gap: 4px;
+        padding: 5px 10px;
+    }
+    .container {
+        min-height: 85vh;
     }
 }
 
