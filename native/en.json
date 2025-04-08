@@ -23,6 +23,7 @@
     "email_EmptyErr": "Login input field is empty",
     "phone_FormatErr": "Wrong phone number format",
     "phone_WrongErr": "Wrong phone  number",
-    "phone_EmptyErr": "Login input field is empty"
+    "phone_EmptyErr": "Login input field is empty",
+    "legalInfo": "Legal information"
   }
   
