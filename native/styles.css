@@ -253,7 +253,6 @@ label {
 }
   
 .custom-select {
-    /* Отключаем стандартное оформление браузера */
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
