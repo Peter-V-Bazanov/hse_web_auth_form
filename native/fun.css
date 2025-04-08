@@ -1,0 +1,40 @@
+:root {
+    --primary-color: #B33948;
+}
+/* Контейнер для серпов и молотов */
+.falling-container {
+    position: fixed;     /* Чтобы контейнер оставался на месте при прокрутке */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* Чтоб клики "пролетали" сквозь анимацию */
+    overflow: hidden;     /* Спрячем те, что уже вышли за границы */
+    z-index: 9999;        /* Чтобы было поверх остального контента */
+  }
+  
+  /* Каждый «серп и молот» */
+  .falling-item {
+    position: absolute;
+    font-size: 24px;      /* Можно потом менять динамически */
+    color: var(--primary-color);
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+  }
+  
+  /* Ключевые кадры анимации: падение сверху вниз */
+  @keyframes fall {
+    0% {
+      transform: translateY(-100%) rotate(0deg); /* Над верхним краем экрана */
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh) rotate(720deg); /* Уйдёт за нижний край */
+      opacity: 0;
+    }
+  }
+  
