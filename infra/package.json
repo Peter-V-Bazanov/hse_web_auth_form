@@ -10,7 +10,10 @@
   "author": "",
   "license": "ISC",
   "engines": {
-  "node": "22.13.1",
-  "npm": "10.9.2"
+    "node": "22.13.1",
+    "npm": "10.9.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
   }
 }
