@@ -118,13 +118,70 @@
 > ⚠️ Версию node можно дополнительно зафиксировать в секции `engines` файла `package.json`
 
 ---
-- [ ] (+4Б) Подключите Typescript
-    - [ ] Установите в проект Typescript. Постарайтесь сконфигурировать проверку типов максимально строго.
-    - [ ] Сконфигурируйте `tsconfig.json`
-    - [ ] ❓ Объясните выбор конфигурации.❓ 
-        - *\*\*Объяснение\*\**
+- [x] (+4Б) Подключите Typescript
+    - [x] Установите в проект Typescript. Постарайтесь сконфигурировать проверку типов максимально строго.
+    - [x] Сконфигурируйте `tsconfig.json`
+    - [ ] ❓ Объясните выбор конфигурации ❓
     - [ ] Опишите типы данных вашего приложения.
     - [ ] Добавьте в package.json команду для проверки типов (`tsc --noEmit`)
+    
+<details><summary><i>Объяснение выбора конфигурации <code>tsconfig.js</code>⤵️</i></summary><table border="1">
+  <tr>
+    <th>Параметр</th>
+    <th>Дефолт (<code>npx tsc --init</code>)</th>
+    <th>В проекте</th>
+    <th>Объяснение</th>
+  </tr>
+  <tr>
+    <td>target</td>
+    <td>es2016</td>
+    <td>es6</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>module</td>
+    <td>commonjs</td>
+    <td>es6</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>strict</td>
+    <td>true</td>
+    <td>true</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>esModuleInterop</td>
+    <td>true</td>
+    <td>true</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>skipLibCheck</td>
+    <td>true</td>
+    <td>true</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>forceConsistentCasingInFileNames</td>
+    <td>true</td>
+    <td>true</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>rootDir</td>
+    <td>—</td>
+    <td>./src</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>outDir</td>
+    <td>—</td>
+    <td>./dist</td>
+    <td></td>
+  </tr>
+</table>
+</details>
 
 ---
 - [ ] (+4Б) Подключите сборщик
@@ -155,6 +212,6 @@
     - [ ] Сконфигурируйте фреймворк тестирования
     - [ ] ❓ Объясните выбор фреймворка и  конфигурации ❓
         - *\*\*Объяснение\*\**
-    - [ ] Напишите тесты 
+    - [ ] Напишите тесты
 
 </details>
