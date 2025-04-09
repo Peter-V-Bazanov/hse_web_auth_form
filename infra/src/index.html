@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="eng">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="ChainedUp authentication form">
+        <title>ChainedUp</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="logo_mini_16x16.svg">
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="fun.css">
+    </head>
+
+    <body>
+        <div class="container">
+            <header>
+                <img src="logo_128x32.svg" alt="ChainedUp">
+            </header>
+            <main>
+                <div class="card">
+                    <h1 data-i18n="signIn">Sign in</h1>
+                    <button data-i18n="continueGoogle" class="form background">&#x1F34F; Continue with Google</button>
+                    <button data-i18n="continueApple" class="form background">&#x1F34E; Sign in with Apple</button>
+                    <div class="separator">
+                        <span>or</span>
+                    </div>
+                    <form action="dummy.html" id="login_form">
+                        <fieldset name="login_and_password">
+                            <span class="errorField" id="loginErrorField" data-i18n="phone_EmptyErr">Input field is empty</span>
+                            <input data-i18n-placeholder="emailPhone" class="form-el text" type="text" placeholder="Email or Phone">
+                            
+                            <span class="errorField" id="passwordErrorField" data-i18n="password_EmptyErr">Input field is empty</span>
+                            <div class="password-container">
+                                <input data-i18n-placeholder="passwordPlaceholder" id="passwordInput" class="" type="password" placeholder="Password">
+                                <button data-i18n="togglePasswordShow" type="button" id="togglePassword" class="toggle-password">Show</button>
+                            </div>
+                        </fieldset>
+
+                        <a data-i18n="forgotPassword" class="form-el forgot-password" href="dummy.html">Forgot password?</a>
+                        <label class="form-el">
+                            <input type="checkbox" name="keepLoggedIn">
+                            <span data-i18n="keepLoggedIn">Keep me logged in</span>
+                        </label>
+                        <button data-i18n="signIn" class="form-el form primary">Sign in</button>
+                    </form>    
+                </div>
+
+                <div class="unite-now">
+                    <span data-i18n="newTo">New to ChainedUp?</span>
+                    <a data-i18n="uniteNow" href="dummy.html">Unite now!</a>
+                </div>
+                
+            </main>
+
+            <footer>
+                <div class="mini-container">
+                <img src="logo_64x16_black.svg" alt="ChainedUp">
+                <span>&copy;2025</span>
+                </div>
+                <nav class="nav-links">
+                    <a data-i18n="userAgreement" href="dummy.html">User Agreement</a>
+                    <a data-i18n="privacyPolicy" href="dummy.html">Privacy Policy</a>
+                    <a data-i18n="communityGuidelines" href="dummy.html">Community Guidelines</a>
+                    <a data-i18n="cookiePolicy" href="dummy.html">Cookie Policy</a>
+                    <a data-i18n="copyrightPolicy" href="dummy.html">Copyright Policy</a>
+                    <a data-i18n="sendFeedback" href="dummy.html">Send Feedback</a>
+                </nav>
+                
+                <div class="nav-dropdown custom-select-container">
+                    <select class="custom-select" onchange="if(this.value) window.location.href=this.value">
+                        <option data-i18n="legalInfo" value="">Legal information</option>
+                        <option data-i18n="userAgreement" value="dummy.html">User Agreement</option>
+                        <option data-i18n="privacyPolicy" value="dummy.html">Privacy Policy</option>
+                        <option data-i18n="communityGuidelines" value="dummy.html">Community Guidelines</option>
+                        <option data-i18n="cookiePolicy" value="dummy.html">Cookie Policy</option>
+                        <option data-i18n="copyrightPolicy" value="dummy.html">Copyright Policy</option>
+                        <option data-i18n="sendFeedback" value="dummy.html">Send Feedback</option>
+                    </select>
+                </div>
+
+                <div class="custom-select-container">
+                    <select class="custom-select" id="languageSelect">
+                        <option value="ru">Russian (Русский)</option>
+                        <option value="en">English (English)</option>
+                    </select>
+                </div>
+            </footer>
+        </div>
+        <div class="falling-container" id="fallingContainer"></div>
+
+        <script src="script.js"></script>
+        <script src="fun.js"></script>
+    </body>
+    
+</html>
