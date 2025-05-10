@@ -4,10 +4,9 @@ interface Translations {
 
 const dataI18n = "data-i18n";
 const dataI18nPlaceholder = dataI18n + "-placeholder";
-const ET = {
-  PASSWORD_WRONG: "password_WrongErr",
-  PASSWORD_EMTY: "password_EmptyErr",
-  PASSWORD_OK: "password_Ok",
+
+// Коды статусов для валидации логина (email/телефон)
+const LoginValidationCodes = {
   EMAIL_FORMAT: "email_FormatErr",
   EMAIL_WRONG: "email_WrongErr",
   EMAIL_EMPTY: "email_EmptyErr",
@@ -17,6 +16,16 @@ const ET = {
   PHONE_EMPTY: "phone_EmptyErr",
   PHONE_OK: "phone_Ok"   
 } as const;
+
+// Коды статусов для валидации пароля
+const PasswordValidationCodes = {
+  PASSWORD_WRONG: "password_WrongErr",
+  PASSWORD_EMTY: "password_EmptyErr",
+  PASSWORD_OK: "password_Ok"
+} as const;
+
+type LoginResult = typeof LoginValidationCodes[keyof typeof LoginValidationCodes];
+type PasswordResult = typeof PasswordValidationCodes[keyof typeof PasswordValidationCodes];
 
 const togglePasswordElement = document.getElementById('togglePassword') as HTMLButtonElement;
 const languageSelect = document.getElementById('languageSelect') as HTMLSelectElement;
@@ -172,7 +181,7 @@ if (loginForm){
 }
 
 // Обработчик ошибок с формы
-function formError (event, element, errorType) {
+function formError (event: SubmitEvent, element: HTMLElement, errorType: LoginResult | PasswordResult) {
   event.preventDefault(); // Остановка отправки формы
 
   const errorPrefix = errorType.split("_")[0]; // Получение префикса ошибки (password/phone/email)
@@ -184,7 +193,7 @@ function formError (event, element, errorType) {
   showErrorAnimation(element);
 }
 
-async function showErrorMessage(element, errorType): Promise<void>{
+async function showErrorMessage(element: HTMLElement, errorType: LoginResult | PasswordResult): Promise<void>{
   // Подгрузка языкового файла и получение перевода сообщения об ошибке
   let lang = localStorage.getItem('language');
   const translations = await loadLanguage(lang);
@@ -196,7 +205,7 @@ async function showErrorMessage(element, errorType): Promise<void>{
   element.style.visibility = 'visible';
 }
 
-function showErrorAnimation(element){
+function showErrorAnimation(element: HTMLElement){
   // Сброс класса, чтобы перезапустить анимацию
   element.classList.remove('animationPingPongFill');
   element.classList.add('animationPingPongFill');
@@ -208,7 +217,7 @@ function isEmail(rawInput: string): boolean {
   return regex.test(rawInput);
 }
 
-function processEmail(emailInput: string): string {
+function processEmail(emailInput: string): LoginResult {
   if (emailInput === "") {
     return ET.EMAIL_EMPTY;
   }
@@ -227,7 +236,7 @@ function processEmail(emailInput: string): string {
   }
 }
 
-function processPhoneNumber(rawInput: string): string {
+function processPhoneNumber(rawInput: string): LoginResult {
   if (rawInput === "") {
     return ET.PHONE_EMPTY;
   }
@@ -263,7 +272,7 @@ function processPhoneNumber(rawInput: string): string {
   }
 }
 
-function processPassword(passwordInput: string) {
+function processPassword(passwordInput: string): PasswordResult {
   const mockPassword = "papassword:)"
 
   if (passwordInput === "") {
