@@ -29,7 +29,7 @@ function createFallingItem() {
 }
 
 // Запускаем снежинки раз в n миллисекунд
-function startFalling() {
+export function startFalling() {
   setInterval(() => {
     createFallingItem();
   }, 200);
