@@ -39,3 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
   startFalling();
 });
   
+function playBooty() {
+  const sound = document.getElementById('bootySound');
+  sound.currentTime = 0; // restart if it's already playing
+  sound.play();
+}

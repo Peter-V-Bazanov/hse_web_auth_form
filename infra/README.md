@@ -29,7 +29,9 @@
     - [ ] Опишите типы данных вашего приложения.
     - [ ] Добавьте в package.json команду для проверки типов (`tsc --noEmit`)
     
-<details><summary><i>Объяснение выбора конфигурации <code>tsconfig.js</code>⤵️</i></summary><table border="1">
+<details><summary><i>Объяснение выбора конфигурации <code>tsconfig.js</code>⤵️</i></summary>
+
+<table border="1">
   <tr>
     <th>Параметр</th>
     <th>Дефолт (<code>npx tsc --init</code>)</th>

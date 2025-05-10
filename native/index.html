@@ -40,7 +40,7 @@
                             <input type="checkbox" name="keepLoggedIn">
                             <span data-i18n="keepLoggedIn">Keep me logged in</span>
                         </label>
-                        <button data-i18n="signIn" class="form-el form primary">Sign in</button>
+                        <button data-i18n="signIn" class="form-el form primary aero-button" onclick="playBooty()">Sign in</button>
                     </form>    
                 </div>
 
@@ -87,6 +87,7 @@
         </div>
         <div class="falling-container" id="fallingContainer"></div>
 
+        <audio id="bootySound" src="booty-thump.mp3" preload="auto"></audio>
         <script src="script.js"></script>
         <script src="fun.js"></script>
     </body>
