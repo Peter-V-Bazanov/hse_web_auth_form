@@ -14,40 +14,42 @@ const ET = Object.freeze({
   PHONE_OK: "phone_Ok"   
 });
 
+const togglePasswordElement = document.getElementById('togglePassword') as HTMLButtonElement;
+const languageSelect = document.getElementById('languageSelect') as HTMLSelectElement;
+
 // Слушатель кнопки шоу/хайд
-document.getElementById('togglePassword').addEventListener('click', function () {
+togglePasswordElement.addEventListener('click', function () {
   togglePasswordVisibility();
 });
 
-function togglePasswordVisibility() {
+function togglePasswordVisibility()  {
   let lang = localStorage.getItem('language');
-  const passwordInput = document.getElementById('passwordInput');
-  const togglePasswordElement = document.getElementById('togglePassword');
+  const passwordInputElement = document.getElementById('passwordInput') as HTMLInputElement;
+  //const togglePasswordElement = document.getElementById('togglePassword') as HTMLButtonElement;
 
-  if (passwordInput.type === 'password') { // инпут тайп пароль означает, что сейчас пароль скрыт точками
-    passwordInput.type = 'text'; // Меняем на текст и пароль показывается
+  if (passwordInputElement.type === 'password') { // инпут тайп пароль означает, что сейчас пароль скрыт точками
+    passwordInputElement.type = 'text'; // Меняем на текст и пароль показывается
     togglePasswordElement.setAttribute(dataI18n, 'togglePasswordHide'); // Меняем атрибут, чтобы устанавливать нужную надпись при переводе страницы
   } else { // Иначе наоборот
-    passwordInput.type = 'password';
+    passwordInputElement.type = 'password';
     togglePasswordElement.setAttribute(dataI18n, 'togglePasswordShow');
   }
 
   setPasswordButtonText(lang);
 }
 
-async function setPasswordButtonText(lang) { // Установка текста на кнопку шоу/хайд
+async function setPasswordButtonText(lang: string): Promise<void> { // Установка текста на кнопку шоу/хайд
   const translations = await loadLanguage(lang);
-  const togglePasswordElement = document.getElementById('togglePassword');
   const key = togglePasswordElement.getAttribute(dataI18n); // Смотрим какую надпись нужно установить (шоу/хайд)
   togglePasswordElement.innerText = translations[key];
 }
 
-async function loadLanguage(lang) {
+async function loadLanguage(lang: string): Promise<void> {
     const response = await fetch(`${lang}.json`);
     return await response.json();
 }
  
-async function applyLanguage(lang) {
+async function applyLanguage(lang: string): Promise<void> {
   const translations = await loadLanguage(lang);
 
   // Заменяем текстовые значения
@@ -71,7 +73,6 @@ async function applyLanguage(lang) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const languageSelect = document.getElementById('languageSelect');
   const supportedLangs = ['en', 'ru'];
 
   // Пытаемся получить сохранённый язык из localStorage
@@ -103,8 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function setupLanguageSelect() { // Устанавливаем слушатель на селектор языка
-  const languageSelect = document.getElementById('languageSelect');
-
   languageSelect.addEventListener('change', (e) => {
     const selectedLang = e.target.value;
     localStorage.setItem('language', selectedLang); // Сохраняем выбранный язык
@@ -130,40 +129,43 @@ function setupAppleButton() { // Слушатель кнопки эппл
   }
 }
 
-document.getElementById('login_form').addEventListener('submit', function (event) {
-  // Получаем элемент поле ввода логина
-  const inputLogin = event.target.querySelector(`[${dataI18nPlaceholder}='emailPhone']`);
-  const loginValue = inputLogin.value.trim(); // Достаём значение, введённое пользователем
-  inputLogin.classList.remove('animationPingPongFill'); // Убираем визаульное выделение поля для актуального отображения
+const loginForm = document.getElementById('login_form');
+if (loginForm){
+  loginForm.addEventListener('submit', function (event) {
+    // Получаем элемент поле ввода логина
+    const inputLogin = event.target.querySelector(`[${dataI18nPlaceholder}='emailPhone']`);
+    const loginValue = inputLogin.value.trim(); // Достаём значение, введённое пользователем
+    inputLogin.classList.remove('animationPingPongFill'); // Убираем визаульное выделение поля для актуального отображения
 
-  const inputPassword = event.target.querySelector(`[${dataI18nPlaceholder}='passwordPlaceholder']`)
-  const passwordValue = inputPassword.value.trim();
-  inputPassword.classList.remove('animationPingPongFill');
+    const inputPassword = event.target.querySelector(`[${dataI18nPlaceholder}='passwordPlaceholder']`)
+    const passwordValue = inputPassword.value.trim();
+    inputPassword.classList.remove('animationPingPongFill');
 
-  let loginResult = "";
-  let passwordResult ="";
-  // Определяем тип логина, чтобы отображать точное сообщение об ошибке / проверять форматы
-  if (isEmail(loginValue.trim())) {
-    loginResult = processEmail(loginValue.trim()); // Проверяем почту
-  } else {
-    loginResult = processPhoneNumber(loginValue.trim()); // Проверяем телефон
-  }
-
-  if ((loginResult === ET.EMAIL_OK) || (loginResult === ET.PHONE_OK)) { // При верном логине проверяем пароль
-    passwordResult = processPassword(passwordValue.trim());
-    if (passwordResult != ET.PASSWORD_OK) { // Если пароль неверный или пустой, отображаем сообщение об ошибке
-      formError(event, inputPassword, passwordResult);
+    let loginResult = "";
+    let passwordResult ="";
+    // Определяем тип логина, чтобы отображать точное сообщение об ошибке / проверять форматы
+    if (isEmail(loginValue.trim())) {
+      loginResult = processEmail(loginValue.trim()); // Проверяем почту
     } else {
-      saveLoginData(loginValue, passwordValue);
+      loginResult = processPhoneNumber(loginValue.trim()); // Проверяем телефон
     }
-  } else { // Иначе отображаем сообщение об ошибке в поле логина пользователю
-    formError(event, inputLogin, loginResult);
-  }
-  // На пустое значение пароль проверяем всегда
-  if (passwordValue.trim() === "") {
-    formError(event, inputPassword, ET.PASSWORD_EMTY);
-  }
-});
+
+    if ((loginResult === ET.EMAIL_OK) || (loginResult === ET.PHONE_OK)) { // При верном логине проверяем пароль
+      passwordResult = processPassword(passwordValue.trim());
+      if (passwordResult != ET.PASSWORD_OK) { // Если пароль неверный или пустой, отображаем сообщение об ошибке
+        formError(event, inputPassword, passwordResult);
+      } else {
+        saveLoginData(loginValue, passwordValue);
+      }
+    } else { // Иначе отображаем сообщение об ошибке в поле логина пользователю
+      formError(event, inputLogin, loginResult);
+    }
+    // На пустое значение пароль проверяем всегда
+    if (passwordValue.trim() === "") {
+      formError(event, inputPassword, ET.PASSWORD_EMTY);
+    }
+  });
+}
 
 // Обработчик ошибок с формы
 function formError (event, element, errorType) {
@@ -178,7 +180,7 @@ function formError (event, element, errorType) {
   showErrorAnimation(element);
 }
 
-async function showErrorMessage(element, errorType){
+async function showErrorMessage(element, errorType): Promise<void>{
   // Подгрузка языкового файла и получение перевода сообщения об ошибке
   let lang = localStorage.getItem('language');
   const translations = await loadLanguage(lang);
@@ -196,18 +198,18 @@ function showErrorAnimation(element){
   element.classList.add('animationPingPongFill');
 }
 
-function isEmail(rawInput) {
+function isEmail(rawInput: string): boolean {
   // Если есть буквы, сабака, точка или прочерк, то это не номер телефона
   const regex = /[A-Za-z.@_]/;
   return regex.test(rawInput);
 }
 
-function processEmail(emailInput) {
+function processEmail(emailInput: string): string {
   if (emailInput === "") {
     return ET.EMAIL_EMPTY;
   }
 
-  mockEmail = "chain@ed.up";
+  const mockEmail = "chain@ed.up";
   // Протестировал регекс на 36 строках на regex101.com, хотел вставить их куда-нибудь в ридми, но забыл 
   const emailRegex = /^(?!.*\.\.)(?:[A-Za-z]|[A-Za-z](?:[A-Za-z0-9_-]|\.(?!\.))*[A-Za-z0-9])@(?:[A-Za-z0-9]|[A-Za-z0-9](?:[A-Za-z0-9]|\.(?!\.))*[A-Za-z0-9])$/;
   if (!emailRegex.test(emailInput)) {
@@ -221,7 +223,7 @@ function processEmail(emailInput) {
   }
 }
 
-function processPhoneNumber(rawInput) {
+function processPhoneNumber(rawInput: string): string {
   if (rawInput === "") {
     return ET.PHONE_EMPTY;
   }
@@ -257,7 +259,7 @@ function processPhoneNumber(rawInput) {
   }
 }
 
-function processPassword(passwordInput) {
+function processPassword(passwordInput: string) {
   const mockPassword = "papassword:)"
 
   if (passwordInput === "") {
@@ -271,7 +273,7 @@ function processPassword(passwordInput) {
   }
 }
 
-function saveLoginData(loginValue, passwordValue) {
+function saveLoginData(loginValue: string, passwordValue: string) {
   const chexbox = document.querySelector(`[name='keepLoggedIn']`);
   if (chexbox.checked) {
     localStorage.setItem('keepLoggedIn', 'yes');
@@ -296,8 +298,8 @@ function setKeepLoggedInState() {
 }
 
 function setInputValues() {
-  const inputLogin = document.querySelector(`[${dataI18nPlaceholder}='emailPhone']`);
-  const inputPassword = document.querySelector(`[${dataI18nPlaceholder}='passwordPlaceholder'`)
+  const inputLogin = document.querySelector(`[${dataI18nPlaceholder}='emailPhone']`) as HTMLInputElement;
+  const inputPassword = document.querySelector(`[${dataI18nPlaceholder}='passwordPlaceholder'`) as HTMLInputElement;
   const loginValue = localStorage.getItem('savedLogin');
   const passwordValue = localStorage.getItem('savedPassword');
   inputLogin.value = loginValue;
