@@ -1,1 +1,8 @@
-import './script.ts'
+import { initializeApp } from './script';
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  initializeApp();
+  
+});

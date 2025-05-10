@@ -2,8 +2,8 @@ interface Translations {
   [key: string]: string;
 }
 
-const _dataI18n = "data-i18n";
-const _dataI18nPlaceholder = _dataI18n + "-placeholder";
+const dataI18n = "data-i18n";
+const dataI18nPlaceholder = dataI18n + "-placeholder";
 const ET = {
   PASSWORD_WRONG: "password_WrongErr",
   PASSWORD_EMTY: "password_EmptyErr",
@@ -33,10 +33,10 @@ function togglePasswordVisibility()  {
 
   if (passwordInputElement.type === 'password') { // инпут тайп пароль означает, что сейчас пароль скрыт точками
     passwordInputElement.type = 'text'; // Меняем на текст и пароль показывается
-    togglePasswordElement.setAttribute(_dataI18n, 'togglePasswordHide'); // Меняем атрибут, чтобы устанавливать нужную надпись при переводе страницы
+    togglePasswordElement.setAttribute(dataI18n, 'togglePasswordHide'); // Меняем атрибут, чтобы устанавливать нужную надпись при переводе страницы
   } else { // Иначе наоборот
     passwordInputElement.type = 'password';
-    togglePasswordElement.setAttribute(_dataI18n, 'togglePasswordShow');
+    togglePasswordElement.setAttribute(dataI18n, 'togglePasswordShow');
   }
 
   setPasswordButtonText(lang);
@@ -44,7 +44,7 @@ function togglePasswordVisibility()  {
 
 async function setPasswordButtonText(lang: string): Promise<void> { // Установка текста на кнопку шоу/хайд
   const translations = await loadLanguage(lang);
-  const key = togglePasswordElement.getAttribute(_dataI18n); // Смотрим какую надпись нужно установить (шоу/хайд)
+  const key = togglePasswordElement.getAttribute(dataI18n); // Смотрим какую надпись нужно установить (шоу/хайд)
   togglePasswordElement.innerText = translations[key];
 }
 
@@ -76,7 +76,7 @@ async function applyLanguage(lang: string): Promise<void> {
   localStorage.setItem('language', lang);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+export function initializeApp(): void {
   const supportedLangs = ['en', 'ru'];
 
   // Пытаемся получить сохранённый язык из localStorage
@@ -137,11 +137,11 @@ const loginForm = document.getElementById('login_form');
 if (loginForm){
   loginForm.addEventListener('submit', function (event) {
     // Получаем элемент поле ввода логина
-    const inputLogin = event.target.querySelector(`[${_dataI18nPlaceholder}='emailPhone']`);
+    const inputLogin = event.target.querySelector(`[${dataI18nPlaceholder}='emailPhone']`);
     const loginValue = inputLogin.value.trim(); // Достаём значение, введённое пользователем
     inputLogin.classList.remove('animationPingPongFill'); // Убираем визаульное выделение поля для актуального отображения
 
-    const inputPassword = event.target.querySelector(`[${_dataI18nPlaceholder}='passwordPlaceholder']`)
+    const inputPassword = event.target.querySelector(`[${dataI18nPlaceholder}='passwordPlaceholder']`)
     const passwordValue = inputPassword.value.trim();
     inputPassword.classList.remove('animationPingPongFill');
 
@@ -191,7 +191,7 @@ async function showErrorMessage(element, errorType): Promise<void>{
   const errorMessage = translations[errorType];
   
   // Отображение сообщения об ошибке
-  element.setAttribute(_dataI18n, errorType); // Установка атрибута текущей ошибки, чтобы работал перевод
+  element.setAttribute(dataI18n, errorType); // Установка атрибута текущей ошибки, чтобы работал перевод
   element.innerText = errorMessage;
   element.style.visibility = 'visible';
 }
@@ -302,8 +302,8 @@ function setKeepLoggedInState() {
 }
 
 function setInputValues() {
-  const inputLogin = document.querySelector(`[${_dataI18nPlaceholder}='emailPhone']`) as HTMLInputElement;
-  const inputPassword = document.querySelector(`[${_dataI18nPlaceholder}='passwordPlaceholder'`) as HTMLInputElement;
+  const inputLogin = document.querySelector(`[${dataI18nPlaceholder}='emailPhone']`) as HTMLInputElement;
+  const inputPassword = document.querySelector(`[${dataI18nPlaceholder}='passwordPlaceholder'`) as HTMLInputElement;
   const loginValue = localStorage.getItem('savedLogin');
   const passwordValue = localStorage.getItem('savedPassword');
   inputLogin.value = loginValue;
