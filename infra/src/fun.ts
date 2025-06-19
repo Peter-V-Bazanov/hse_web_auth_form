@@ -11,11 +11,11 @@ function createFallingItem(): void {
 
   // Создаём снежинку
   const item = document.createElement('span');
-  item.textContent = '☭'; 
+  item.textContent = '☭';
   item.classList.add('falling-item');
 
   // Случайная горизонтальная позиция
-  const randomLeft = Math.random() * 100; 
+  const randomLeft = Math.random() * 100;
   item.style.left = randomLeft + 'vw';
 
   // Случайный размер шрифта
@@ -43,4 +43,3 @@ export function startFalling(): void {
     createFallingItem();
   }, 200);
 }
-  

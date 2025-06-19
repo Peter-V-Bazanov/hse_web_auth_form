@@ -2,37 +2,47 @@ interface Translations {
   [key: string]: string;
 }
 
-const dataI18n = "data-i18n";
-const dataI18nPlaceholder = dataI18n + "-placeholder";
+const dataI18n = 'data-i18n';
+const dataI18nPlaceholder = dataI18n + '-placeholder';
 
 // Коды статусов для валидации логина (email/телефон)
 const LoginValidationCodes = {
-  EMAIL_FORMAT: "email_FormatErr",
-  EMAIL_WRONG: "email_WrongErr",
-  EMAIL_EMPTY: "email_EmptyErr",
-  EMAIL_OK: "email_Ok",
-  PHONE_FORMAT: "phone_FormatErr",
-  PHONE_WRONG: "phone_WrongErr",
-  PHONE_EMPTY: "phone_EmptyErr",
-  PHONE_OK: "phone_Ok"   
+  EMAIL_FORMAT: 'email_FormatErr',
+  EMAIL_WRONG: 'email_WrongErr',
+  EMAIL_EMPTY: 'email_EmptyErr',
+  EMAIL_OK: 'email_Ok',
+  PHONE_FORMAT: 'phone_FormatErr',
+  PHONE_WRONG: 'phone_WrongErr',
+  PHONE_EMPTY: 'phone_EmptyErr',
+  PHONE_OK: 'phone_Ok',
 } as const;
 
 // Коды статусов для валидации пароля
 const PasswordValidationCodes = {
-  PASSWORD_WRONG: "password_WrongErr",
-  PASSWORD_EMTY: "password_EmptyErr",
-  PASSWORD_OK: "password_Ok"
+  PASSWORD_WRONG: 'password_WrongErr',
+  PASSWORD_EMTY: 'password_EmptyErr',
+  PASSWORD_OK: 'password_Ok',
 } as const;
 
-type LoginResult = typeof LoginValidationCodes[keyof typeof LoginValidationCodes];
-type PasswordResult = typeof PasswordValidationCodes[keyof typeof PasswordValidationCodes];
+type LoginResult =
+  (typeof LoginValidationCodes)[keyof typeof LoginValidationCodes];
+type PasswordResult =
+  (typeof PasswordValidationCodes)[keyof typeof PasswordValidationCodes];
 
 //Получение DOM элементов
-const passwordInputElement = document.getElementById('passwordInput') as HTMLInputElement;
-const togglePasswordButton = document.getElementById('togglePassword') as HTMLButtonElement;
+const passwordInputElement = document.getElementById(
+  'passwordInput'
+) as HTMLInputElement;
+const togglePasswordButton = document.getElementById(
+  'togglePassword'
+) as HTMLButtonElement;
 const loginForm = document.getElementById('login_form') as HTMLFormElement;
-const languageSelect = document.getElementById('languageSelect') as HTMLSelectElement;
-const keepLoggedInCheckbox = document.querySelector<HTMLInputElement>('input[name="keepLoggedIn"]');
+const languageSelect = document.getElementById(
+  'languageSelect'
+) as HTMLSelectElement;
+const keepLoggedInCheckbox = document.querySelector<HTMLInputElement>(
+  'input[name="keepLoggedIn"]'
+);
 
 //Инициализация страницы
 export function initializeApp(): void {
@@ -42,10 +52,10 @@ export function initializeApp(): void {
   let lang = localStorage.getItem('language');
   // Если язык не сохранён ранее, то определяем язык браузера
   if (!lang || !supportedLangs.includes(lang)) {
-      lang = (navigator.language).slice(0, 2); // "en-GB" "en-US"
-      if (!supportedLangs.includes(lang)) {
-          lang = 'en'; // Язык по умолчанию
-      }
+    lang = navigator.language.slice(0, 2); // "en-GB" "en-US"
+    if (!supportedLangs.includes(lang)) {
+      lang = 'en'; // Язык по умолчанию
+    }
   }
 
   // Устанавливаем выбранный язык в выпадающем списке
@@ -61,7 +71,7 @@ export function initializeApp(): void {
   if (setKeepLoggedInState()) {
     setInputValues();
   }
-};
+}
 
 //Установка слушателей
 function setupEventListeners(): void {
@@ -70,14 +80,22 @@ function setupEventListeners(): void {
   // Выпадающий список
   languageSelect.addEventListener('change', handleLanguageChange);
   // Кнопки "Продолжить с гугл/эпл"
-    const googleBtn = document.querySelector<HTMLButtonElement>('button[data-i18n="continueGoogle"]');
+  const googleBtn = document.querySelector<HTMLButtonElement>(
+    'button[data-i18n="continueGoogle"]'
+  );
   if (googleBtn) {
-    googleBtn.addEventListener("click", () => { window.location.href = "dummy.html"; });
+    googleBtn.addEventListener('click', () => {
+      window.location.href = 'dummy.html';
+    });
   }
 
-  const appleBtn = document.querySelector<HTMLButtonElement>('button[data-i18n="continueApple"]');
+  const appleBtn = document.querySelector<HTMLButtonElement>(
+    'button[data-i18n="continueApple"]'
+  );
   if (appleBtn) {
-    appleBtn.addEventListener("click", () => { window.location.href = "dummy.html"; });
+    appleBtn.addEventListener('click', () => {
+      window.location.href = 'dummy.html';
+    });
   }
 
   // Отправка формы входа
@@ -93,11 +111,13 @@ function setupEventListeners(): void {
  */
 function togglePasswordVisibility(): void {
   const lang = localStorage.getItem('language') || 'en';
-  
-  if (passwordInputElement.type === 'password') { // инпут тайп пароль означает, что сейчас пароль скрыт точками
+
+  if (passwordInputElement.type === 'password') {
+    // инпут тайп пароль означает, что сейчас пароль скрыт точками
     passwordInputElement.type = 'text'; // Меняем на текст и пароль показывается
     togglePasswordButton.setAttribute(dataI18n, 'togglePasswordHide'); // Меняем атрибут, чтобы устанавливать нужную надпись при переводе страницы
-  } else { // Иначе наоборот
+  } else {
+    // Иначе наоборот
     passwordInputElement.type = 'password';
     togglePasswordButton.setAttribute(dataI18n, 'togglePasswordShow');
   }
@@ -120,15 +140,17 @@ function handleFormSubmit(event: SubmitEvent): void {
   event.preventDefault();
 
   // Получаем элемент поле ввода логина
-  const inputLogin = loginForm.querySelector<HTMLInputElement>(`[${dataI18nPlaceholder}='emailPhone']`);
-  
+  const inputLogin = loginForm.querySelector<HTMLInputElement>(
+    `[${dataI18nPlaceholder}='emailPhone']`
+  );
+
   if (!inputLogin || !passwordInputElement) {
-    console.error("Не найдены поля для логина или пароля!");
+    console.error('Не найдены поля для логина или пароля!');
     return;
   }
 
   // Сбрасываем сообщения об ошибках
-  document.querySelectorAll('.errorField').forEach(field => {
+  document.querySelectorAll('.errorField').forEach((field) => {
     if (field instanceof HTMLElement) {
       field.style.visibility = 'hidden';
     }
@@ -141,25 +163,33 @@ function handleFormSubmit(event: SubmitEvent): void {
   passwordInputElement.classList.remove('animationPingPongFill');
 
   // Валидация логина и пароля
-  const loginResult = isEmail(loginValue) ? processEmail(loginValue) : processPhoneNumber(loginValue);
+  const loginResult = isEmail(loginValue)
+    ? processEmail(loginValue)
+    : processPhoneNumber(loginValue);
 
-  if ((loginResult === LoginValidationCodes.EMAIL_OK) || (loginResult === LoginValidationCodes.PHONE_OK)) { // Если логин верный проверяем пароль
+  if (
+    loginResult === LoginValidationCodes.EMAIL_OK ||
+    loginResult === LoginValidationCodes.PHONE_OK
+  ) {
+    // Если логин верный проверяем пароль
     const passwordResult = processPassword(passwordValue.trim());
-    if (passwordResult === PasswordValidationCodes.PASSWORD_OK) { // Если пароль верный
+    if (passwordResult === PasswordValidationCodes.PASSWORD_OK) {
+      // Если пароль верный
       saveLoginData(loginValue, passwordValue);
       loginForm.submit();
     } else {
       formError(passwordInputElement, passwordResult);
     }
-  } else { // Если логин неверный/некорректный — сообщаем пользователю
+  } else {
+    // Если логин неверный/некорректный — сообщаем пользователю
     formError(inputLogin, loginResult);
   }
 
   // На пустое значение пароль проверяем всегда
-  if (passwordValue.trim() === "") {
+  if (passwordValue.trim() === '') {
     formError(passwordInputElement, PasswordValidationCodes.PASSWORD_EMTY);
   }
-};
+}
 
 /*
   -= ФУНКЦИИ ВАЛИДАЦИИ И ОБРАБОТКИ ДАННЫХ =-
@@ -181,14 +211,17 @@ function isEmail(rawInput: string): boolean {
  * @returns Код результата проверки.
  */
 function processEmail(emailInput: string): LoginResult {
-  if (emailInput === "") return LoginValidationCodes.EMAIL_EMPTY;
+  if (emailInput === '') return LoginValidationCodes.EMAIL_EMPTY;
 
-  const mockEmail = "chain@ed.up";
-  // Протестировал регекс на 36 строках на regex101.com, хотел вставить их куда-нибудь в ридми, но забыл 
-  const emailRegex = /^(?!.*\.\.)(?:[A-Za-z]|[A-Za-z](?:[A-Za-z0-9_-]|\.(?!\.))*[A-Za-z0-9])@(?:[A-Za-z0-9]|[A-Za-z0-9](?:[A-Za-z0-9]|\.(?!\.))*[A-Za-z0-9])$/;
+  const mockEmail = 'chain@ed.up';
+  // Протестировал регекс на 36 строках на regex101.com, хотел вставить их куда-нибудь в ридми, но забыл
+  const emailRegex =
+    /^(?!.*\.\.)(?:[A-Za-z]|[A-Za-z](?:[A-Za-z0-9_-]|\.(?!\.))*[A-Za-z0-9])@(?:[A-Za-z0-9]|[A-Za-z0-9](?:[A-Za-z0-9]|\.(?!\.))*[A-Za-z0-9])$/;
 
   if (!emailRegex.test(emailInput)) return LoginValidationCodes.EMAIL_FORMAT;
-  return emailInput === mockEmail ? LoginValidationCodes.EMAIL_OK : LoginValidationCodes.EMAIL_WRONG;
+  return emailInput === mockEmail
+    ? LoginValidationCodes.EMAIL_OK
+    : LoginValidationCodes.EMAIL_WRONG;
 }
 
 /**
@@ -197,14 +230,14 @@ function processEmail(emailInput: string): LoginResult {
  * @returns Код результата проверки.
  */
 function processPhoneNumber(rawInput: string): LoginResult {
-  if (rawInput === "") return LoginValidationCodes.PHONE_EMPTY;
+  if (rawInput === '') return LoginValidationCodes.PHONE_EMPTY;
 
   let plus = false;
 
   // Шаг 1: Удаляем все символы, кроме цифр и знака +
   // Сначала оставляем только цифры и плюс
   let cleanedPhoneNumber = rawInput.replace(/[^\d+]/g, '');
-  
+
   // Если плюс встречается не в начале, удаляем его
   if (cleanedPhoneNumber.charAt(0) === '+') {
     plus = true;
@@ -213,17 +246,19 @@ function processPhoneNumber(rawInput: string): LoginResult {
     // Если первый символ не '+', то удаляем все плюсы
     cleanedPhoneNumber = cleanedPhoneNumber.replace(/\+/g, '');
   }
-  
+
   // Проверяем соответствие регулярному выражению
   // 11 символов, первый символ 8 или +, далее 10 цифр
   const phoneRegex = /^(?:8|\+7)\d{10}$/;
   if (!phoneRegex.test(cleanedPhoneNumber)) {
     return LoginValidationCodes.PHONE_FORMAT;
   }
-  
+
   // Удаляем первый символ и сравниваем с мок номером
-  cleanedPhoneNumber = plus ? cleanedPhoneNumber.slice(2) : cleanedPhoneNumber.slice(1); 
-  const mockPhoneNumber = "9523315527";
+  cleanedPhoneNumber = plus
+    ? cleanedPhoneNumber.slice(2)
+    : cleanedPhoneNumber.slice(1);
+  const mockPhoneNumber = '9523315527';
   if (cleanedPhoneNumber === mockPhoneNumber) {
     return LoginValidationCodes.PHONE_OK;
   } else {
@@ -237,9 +272,11 @@ function processPhoneNumber(rawInput: string): LoginResult {
  * @returns Код результата проверки.
  */
 function processPassword(passwordInput: string): PasswordResult {
-  if (passwordInput === "") return PasswordValidationCodes.PASSWORD_EMTY;
-  const mockPassword = "papassword:)"
-  return passwordInput === mockPassword ? PasswordValidationCodes.PASSWORD_OK : PasswordValidationCodes.PASSWORD_WRONG
+  if (passwordInput === '') return PasswordValidationCodes.PASSWORD_EMTY;
+  const mockPassword = 'papassword:)';
+  return passwordInput === mockPassword
+    ? PasswordValidationCodes.PASSWORD_OK
+    : PasswordValidationCodes.PASSWORD_WRONG;
 }
 
 /*
@@ -249,11 +286,14 @@ function processPassword(passwordInput: string): PasswordResult {
 /**
  * Определяет элемент для отображения ошибки и запускает анимацию.
  */
-function formError (element: HTMLElement, errorType: LoginResult | PasswordResult) {
-  const errorPrefix = errorType.split("_")[0]; // Получение префикса ошибки (password/phone/email)
+function formError(
+  element: HTMLElement,
+  errorType: LoginResult | PasswordResult
+) {
+  const errorPrefix = errorType.split('_')[0]; // Получение префикса ошибки (password/phone/email)
   // phone и email сводятся к login
-  const errorAtr = (errorPrefix === 'password') ? 'password' : 'login';
-  const errorField = document.getElementById(`${errorAtr}ErrorField`)
+  const errorAtr = errorPrefix === 'password' ? 'password' : 'login';
+  const errorField = document.getElementById(`${errorAtr}ErrorField`);
 
   // Отображение ошибок пользователю
   if (errorField) {
@@ -267,12 +307,15 @@ function formError (element: HTMLElement, errorType: LoginResult | PasswordResul
  * @param element Элемент, в котором отображается ошибка.
  * @param errorType Тип ошибки.
  */
-async function showErrorMessage(element: HTMLElement, errorType: LoginResult | PasswordResult): Promise<void>{
+async function showErrorMessage(
+  element: HTMLElement,
+  errorType: LoginResult | PasswordResult
+): Promise<void> {
   // Подгрузка языкового файла и получение перевода сообщения об ошибке
   const lang = localStorage.getItem('language') || 'en';
   const translations = await loadLanguage(lang);
   const errorMessage = translations[errorType];
-  
+
   // Отображение сообщения об ошибке
   element.setAttribute(dataI18n, errorType); // Установка атрибута текущей ошибки, чтобы работал перевод
   element.innerText = errorMessage;
@@ -283,7 +326,7 @@ async function showErrorMessage(element: HTMLElement, errorType: LoginResult | P
  * Устанавливает анимацию ошибки на нужный элемент.
  * @param element Анимируемый элемент.
  */
-function showErrorAnimation(element: HTMLElement){
+function showErrorAnimation(element: HTMLElement) {
   // Сброс класса, чтобы перезапустить анимацию
   element.classList.remove('animationPingPongFill');
   element.classList.add('animationPingPongFill');
@@ -296,7 +339,7 @@ function showErrorAnimation(element: HTMLElement){
 async function setPasswordButtonText(lang: string): Promise<void> {
   const translations = await loadLanguage(lang);
   const key = togglePasswordButton.getAttribute(dataI18n); // Смотрим какую надпись нужно установить (шоу/хайд)
-  if (key){
+  if (key) {
     togglePasswordButton.innerText = translations[key];
   }
 }
@@ -311,10 +354,10 @@ async function setPasswordButtonText(lang: string): Promise<void> {
  * @returns Словарь со значениями на нужном языке для всех элементов интерфейса.
  */
 async function loadLanguage(lang: string): Promise<Translations> {
-    const response = await fetch(`/src/${lang}.json`);
-    return await response.json();
+  const response = await fetch(`/src/${lang}.json`);
+  return await response.json();
 }
- 
+
 /**
  * Применяет переводы ко всем элементам на странице.
  * @param lang Язык.
@@ -323,19 +366,19 @@ async function applyLanguage(lang: string): Promise<void> {
   const translations = await loadLanguage(lang);
 
   // Заменяем текстовые значения
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      if (key && translations[key] && el instanceof HTMLElement) {
-          el.innerText = translations[key];
-      }
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    const key = el.getAttribute('data-i18n');
+    if (key && translations[key] && el instanceof HTMLElement) {
+      el.innerText = translations[key];
+    }
   });
 
   // Заменяем значения placeholder
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-      const key = el.getAttribute('data-i18n-placeholder');
-      if (key && translations[key] && el instanceof HTMLInputElement) {
-          el.placeholder = translations[key];
-      }
+  document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (key && translations[key] && el instanceof HTMLInputElement) {
+      el.placeholder = translations[key];
+    }
   });
 
   // Обновляем текст на кнопке "показать/скрыть" (пароль)
@@ -373,7 +416,7 @@ function saveLoginData(loginValue: string, passwordValue: string) {
 function setKeepLoggedInState(): boolean {
   if (!keepLoggedInCheckbox) return false;
   const keepLoggedInState = localStorage.getItem('keepLoggedIn');
-  keepLoggedInCheckbox.checked = keepLoggedInState === 'yes'
+  keepLoggedInCheckbox.checked = keepLoggedInState === 'yes';
   return keepLoggedInCheckbox.checked;
 }
 
@@ -381,15 +424,16 @@ function setKeepLoggedInState(): boolean {
  * Подставляет сохраненные логин и пароль в поля ввода.
  */
 function setInputValues(): void {
-  const inputLogin = document.querySelector(`[${dataI18nPlaceholder}='emailPhone']`) as HTMLInputElement;
+  const inputLogin = document.querySelector(
+    `[${dataI18nPlaceholder}='emailPhone']`
+  ) as HTMLInputElement;
   const loginValue = localStorage.getItem('savedLogin');
   const passwordValue = localStorage.getItem('savedPassword');
 
-  if(inputLogin && loginValue) {
+  if (inputLogin && loginValue) {
     inputLogin.value = loginValue;
   }
-  if (passwordValue){
+  if (passwordValue) {
     passwordInputElement.value = passwordValue;
   }
 }
-

@@ -1,38 +1,37 @@
 :root {
-    --primary-color: #B33948;
+  --primary-color: #b33948;
 }
 
 .falling-container {
-    position: fixed;     /* Чтобы контейнер оставался на месте при прокрутке */
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none; /* Чтоб кликалось сквозь */
-    overflow: hidden;     /* Скрыто то, что выходит за границы */
-    z-index: 9999;        /* Чтобы было поверх остального контента */
+  position: fixed; /* Чтобы контейнер оставался на месте при прокрутке */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; /* Чтоб кликалось сквозь */
+  overflow: hidden; /* Скрыто то, что выходит за границы */
+  z-index: 9999; /* Чтобы было поверх остального контента */
+}
+
+.falling-item {
+  position: absolute;
+  font-size: 24px;
+  color: var(--primary-color);
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(0vh) rotate(0deg);
+    opacity: 1;
   }
-  
-  .falling-item {
-    position: absolute;
-    font-size: 24px;
-    color: var(--primary-color);
-    animation-name: fall;
-    animation-timing-function: linear;
-    animation-iteration-count: 1;
+  90% {
+    opacity: 1;
   }
-  
-  @keyframes fall {
-    0% {
-      transform: translateY(0vh) rotate(0deg);
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(100vh) rotate(720deg);
-      opacity: 0;
-    }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
   }
-  
+}

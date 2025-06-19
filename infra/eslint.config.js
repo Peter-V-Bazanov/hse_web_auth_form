@@ -1,27 +1,27 @@
-import globals from "globals";
-import tseslint from "typescript-eslint";
-import prettierConfig from "eslint-config-prettier";
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
+import prettierConfig from 'eslint-config-prettier';
 
 export default [
-    {
-        ignores: ["dist/"],
-    },
+  {
+    ignores: ['dist/'],
+  },
 
-    ...tseslint.configs.recommended,
+  ...tseslint.configs.recommended,
 
-    {
-        files: ["src/**/*.ts"], 
-    
-        languageOptions: {
-            globals: {
-            ...globals.browser,
-        },
+  {
+    files: ['src/**/*.ts'],
+
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+      },
     },
 
     rules: {
-      "@typescript-eslint/no-unused-vars": "warn",
+      '@typescript-eslint/no-unused-vars': 'warn',
     },
-    
+
     prettierConfig,
-  }
+  },
 ];
