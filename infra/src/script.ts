@@ -84,10 +84,13 @@ function setupEventListeners(): void {
   loginForm.addEventListener('submit', handleFormSubmit);
 }
 
+/*
+  -= ОБРАБОТЧИКИ СОБЫТИЙ =-
+*/
+
 /**
- * Обработчики событий
+ * Переключение видимости пароля.
  */
-// Переключение видимости пароля
 function togglePasswordVisibility(): void {
   const lang = localStorage.getItem('language') || 'en';
   
@@ -101,12 +104,18 @@ function togglePasswordVisibility(): void {
 
   setPasswordButtonText(lang);
 }
-// Обработчик смены языка
+/**
+ * Обработка смены языка.
+ * @param event Событие.
+ */
 function handleLanguageChange(event: Event): void {
   const selectedLang = (event.target as HTMLSelectElement).value;
   applyLanguage(selectedLang);
 }
-
+/**
+ * Обработка отправки формы.
+ * @param event  Событие отправки формы.
+ */
 function handleFormSubmit(event: SubmitEvent): void {
   event.preventDefault();
 
@@ -133,18 +142,166 @@ function handleFormSubmit(event: SubmitEvent): void {
       saveLoginData(loginValue, passwordValue);
       loginForm.submit();
     } else {
-      formError(event, passwordInputElement, passwordResult);
+      formError(passwordInputElement, passwordResult);
     }
   } else { // Если логин неверный/некорректный — сообщаем пользователю
-    formError(event, inputLogin, loginResult);
+    formError(inputLogin, loginResult);
   }
-  
+
   // На пустое значение пароль проверяем всегда
   if (passwordValue.trim() === "") {
-    formError(event, passwordInputElement, ET.PASSWORD_EMTY);
+    formError(passwordInputElement, PasswordValidationCodes.PASSWORD_EMTY);
   }
 };
 
+/*
+  -= ФУНКЦИИ ВАЛИДАЦИИ И ОБРАБОТКИ ДАННЫХ =-
+*/
+/**
+ * Проверяет, похож ли ввод на email.
+ * @param rawInput Строка для проверки.
+ * @returns True/False.
+ */
+function isEmail(rawInput: string): boolean {
+  // Если есть буквы, собака, точка или прочерк, то это не номер телефона
+  const regex = /[A-Za-z.@_]/;
+  return regex.test(rawInput);
+}
+
+/**
+ * Валидирует email.
+ * @param emailInput Email для проверки.
+ * @returns Код результата проверки.
+ */
+function processEmail(emailInput: string): LoginResult {
+  if (emailInput === "") return ET.EMAIL_EMPTY;
+
+  const mockEmail = "chain@ed.up";
+  // Протестировал регекс на 36 строках на regex101.com, хотел вставить их куда-нибудь в ридми, но забыл 
+  const emailRegex = /^(?!.*\.\.)(?:[A-Za-z]|[A-Za-z](?:[A-Za-z0-9_-]|\.(?!\.))*[A-Za-z0-9])@(?:[A-Za-z0-9]|[A-Za-z0-9](?:[A-Za-z0-9]|\.(?!\.))*[A-Za-z0-9])$/;
+
+  if (!emailRegex.test(emailInput)) return ET.EMAIL_FORMAT;
+  return emailInput === mockEmail ? ET.EMAIL_OK : ET.EMAIL_WRONG;
+}
+
+/**
+ * Валидирует номер телефона.
+ * @param rawInput Номер телефона для проверки.
+ * @returns Код результата проверки.
+ */
+function processPhoneNumber(rawInput: string): LoginResult {
+  if (rawInput === "") return LoginValidationCodes.PHONE_EMPTY;
+
+  let plus = false;
+
+  // Шаг 1: Удаляем все символы, кроме цифр и знака +
+  // Сначала оставляем только цифры и плюс
+  let cleanedPhoneNumber = rawInput.replace(/[^\d+]/g, '');
+  
+  // Если плюс встречается не в начале, удаляем его
+  if (cleanedPhoneNumber.charAt(0) === '+') {
+    plus = true;
+    cleanedPhoneNumber = '+' + cleanedPhoneNumber.slice(1).replace(/\+/g, '');
+  } else {
+    // Если первый символ не '+', то удаляем все плюсы
+    cleanedPhoneNumber = cleanedPhoneNumber.replace(/\+/g, '');
+  }
+  
+  // Проверяем соответствие регулярному выражению
+  // 11 символов, первый символ 8 или +, далее 10 цифр
+  const phoneRegex = /^(?:8|\+7)\d{10}$/;
+  if (!phoneRegex.test(cleanedPhoneNumber)) {
+    return LoginValidationCodes.PHONE_FORMAT;
+  }
+  
+  // Удаляем первый символ и сравниваем с мок номером
+  cleanedPhoneNumber = plus ? cleanedPhoneNumber.slice(2) : cleanedPhoneNumber.slice(1); 
+  const mockPhoneNumber = "9523315527";
+  if (cleanedPhoneNumber === mockPhoneNumber) {
+    return LoginValidationCodes.PHONE_OK;
+  } else {
+    return LoginValidationCodes.PHONE_WRONG;
+  }
+}
+
+/**
+ * Валидирует пароль.
+ * @param passwordInput Строка для проверки.
+ * @returns Код результата проверки.
+ */
+function processPassword(passwordInput: string): PasswordResult {
+  if (passwordInput === "") return PasswordValidationCodes.PASSWORD_EMTY;
+  const mockPassword = "papassword:)"
+  return passwordInput === mockPassword ? PasswordValidationCodes.PASSWORD_OK : PasswordValidationCodes.PASSWORD_WRONG
+}
+
+/*
+  -= УПРАВЛЕНИЕ ОТОБРАЖЕНИЕМ =-
+*/
+
+/**
+ * Определяет элемент для отображения ошибки и запускает анимацию.
+ */
+function formError (element: HTMLElement, errorType: LoginResult | PasswordResult) {
+  const errorPrefix = errorType.split("_")[0]; // Получение префикса ошибки (password/phone/email)
+  // phone и email сводятся к login
+  const errorAtr = (errorPrefix === 'password') ? 'password' : 'login';
+  const errorField = document.getElementById(`${errorAtr}ErrorField`)
+
+  // Отображение ошибок пользователю
+  if (errorField) {
+    showErrorMessage(errorField, errorType);
+  }
+  showErrorAnimation(element);
+}
+
+/**
+ * Отображает сообщение об ошибке на нужном языке.
+ * @param element Элемент, в котором отображается ошибка.
+ * @param errorType Тип ошибки.
+ */
+async function showErrorMessage(element: HTMLElement, errorType: LoginResult | PasswordResult): Promise<void>{
+  // Подгрузка языкового файла и получение перевода сообщения об ошибке
+  const lang = localStorage.getItem('language') || 'en';
+  const translations = await loadLanguage(lang);
+  const errorMessage = translations[errorType];
+  
+  // Отображение сообщения об ошибке
+  element.setAttribute(dataI18n, errorType); // Установка атрибута текущей ошибки, чтобы работал перевод
+  element.innerText = errorMessage;
+  element.style.visibility = 'visible';
+}
+
+/**
+ * Устанавливает анимацию ошибки на нужный элемент.
+ * @param element Анимируемый элемент.
+ */
+function showErrorAnimation(element: HTMLElement){
+  // Сброс класса, чтобы перезапустить анимацию
+  element.classList.remove('animationPingPongFill');
+  element.classList.add('animationPingPongFill');
+}
+
+/**
+ * Устанавливает текст на кнопке "показать/скрыть" (пароль) на нужном языке.
+ * @param lang Нужный язык.
+ */
+async function setPasswordButtonText(lang: string): Promise<void> {
+  const translations = await loadLanguage(lang);
+  const key = togglePasswordButton.getAttribute(dataI18n); // Смотрим какую надпись нужно установить (шоу/хайд)
+  if (key){
+    togglePasswordButton.innerText = translations[key];
+  }
+}
+
+/**
+  -= ИНТЕРНАЦИОНАЛИЗАЦИЯ =-
+ */
+/**
+ * Загрузка языкового файла.
+ * @param lang Код языка, который нужно загрузить (напр. 'ru').
+ * @returns Словарь со значениями на нужном языке для всех элементов интерфейса.
+ */
 async function loadLanguage(lang: string): Promise<Translations> {
     const response = await fetch(`${lang}.json`);
     return await response.json();
@@ -171,112 +328,6 @@ async function applyLanguage(lang: string): Promise<void> {
 
   // Сохраняем установленный язык в localStorage
   localStorage.setItem('language', lang);
-}
-
-// Обработчик ошибок с формы
-function formError (event: SubmitEvent, element: HTMLElement, errorType: LoginResult | PasswordResult) {
-  event.preventDefault(); // Остановка отправки формы
-
-  const errorPrefix = errorType.split("_")[0]; // Получение префикса ошибки (password/phone/email)
-  // phone и email сводятся к login
-  let errorAtr = (errorPrefix === 'password') ? 'password' : 'login';
-
-  // Отображение ошибок пользователю
-  showErrorMessage(document.getElementById(`${errorAtr}ErrorField`), errorType);
-  showErrorAnimation(element);
-}
-
-async function showErrorMessage(element: HTMLElement, errorType: LoginResult | PasswordResult): Promise<void>{
-  // Подгрузка языкового файла и получение перевода сообщения об ошибке
-  let lang = localStorage.getItem('language');
-  const translations = await loadLanguage(lang);
-  const errorMessage = translations[errorType];
-  
-  // Отображение сообщения об ошибке
-  element.setAttribute(dataI18n, errorType); // Установка атрибута текущей ошибки, чтобы работал перевод
-  element.innerText = errorMessage;
-  element.style.visibility = 'visible';
-}
-
-function showErrorAnimation(element: HTMLElement){
-  // Сброс класса, чтобы перезапустить анимацию
-  element.classList.remove('animationPingPongFill');
-  element.classList.add('animationPingPongFill');
-}
-
-function isEmail(rawInput: string): boolean {
-  // Если есть буквы, сабака, точка или прочерк, то это не номер телефона
-  const regex = /[A-Za-z.@_]/;
-  return regex.test(rawInput);
-}
-
-function processEmail(emailInput: string): LoginResult {
-  if (emailInput === "") {
-    return ET.EMAIL_EMPTY;
-  }
-
-  const mockEmail = "chain@ed.up";
-  // Протестировал регекс на 36 строках на regex101.com, хотел вставить их куда-нибудь в ридми, но забыл 
-  const emailRegex = /^(?!.*\.\.)(?:[A-Za-z]|[A-Za-z](?:[A-Za-z0-9_-]|\.(?!\.))*[A-Za-z0-9])@(?:[A-Za-z0-9]|[A-Za-z0-9](?:[A-Za-z0-9]|\.(?!\.))*[A-Za-z0-9])$/;
-  if (!emailRegex.test(emailInput)) {
-    return ET.EMAIL_FORMAT;
-  } else {
-    if (emailInput === mockEmail){
-      return ET.EMAIL_OK;
-    } else {
-      return ET.EMAIL_WRONG;
-    }
-  }
-}
-
-function processPhoneNumber(rawInput: string): LoginResult {
-  if (rawInput === "") {
-    return ET.PHONE_EMPTY;
-  }
-  let plus = false;
-
-  // Шаг 1: Удаляем все символы, кроме цифр и знака +
-  // Сначала оставляем только цифры и плюс
-  let cleanedPhoneNumber = rawInput.replace(/[^\d+]/g, '');
-  
-  // Если плюс встречается не в начале, удаляем его
-  if (cleanedPhoneNumber.charAt(0) === '+') {
-    plus = true;
-    cleanedPhoneNumber = '+' + cleanedPhoneNumber.slice(1).replace(/\+/g, '');
-  } else {
-    // Если первый символ не '+', то удаляем все плюсы
-    cleanedPhoneNumber = cleanedPhoneNumber.replace(/\+/g, '');
-  }
-  
-  // Проверяем соответствие регулярному выражению
-  // 11 символов, первый символ 8 или +, далее 10 цифр
-  const phoneRegex = /^(?:8|\+7)\d{10}$/;
-  if (!phoneRegex.test(cleanedPhoneNumber)) {
-    return ET.PHONE_FORMAT;
-  }
-  
-  // Удаляем первый символ и сравниваем с мок номером
-  cleanedPhoneNumber = plus ? cleanedPhoneNumber.slice(2) : cleanedPhoneNumber.slice(1); 
-  const mockPhoneNumber = "9523315527";
-  if (cleanedPhoneNumber === mockPhoneNumber) {
-    return ET.PHONE_OK;
-  } else {
-    return ET.PHONE_WRONG;
-  }
-}
-
-function processPassword(passwordInput: string): PasswordResult {
-  const mockPassword = "papassword:)"
-
-  if (passwordInput === "") {
-    return ET.PASSWORD_EMTY;
-  }
-
-  if (passwordInput === mockPassword) {
-    return ET.PASSWORD_OK;
-  } else {
-    return ET.PASSWORD_WRONG;
-  }
 }
 
 function saveLoginData(loginValue: string, passwordValue: string) {
@@ -314,15 +365,3 @@ function setInputValues() {
   }
 }
 
-/**
- * Управление отображением
- */
-
-// Установка текста на кнопке "показать/скрыть" (пароль)
-async function setPasswordButtonText(lang: string): Promise<void> { // Установка текста на кнопку шоу/хайд
-  const translations = await loadLanguage(lang);
-  const key = togglePasswordButton.getAttribute(dataI18n); // Смотрим какую надпись нужно установить (шоу/хайд)
-  if (key){
-    togglePasswordButton.innerText = translations[key];
-  }
-}
