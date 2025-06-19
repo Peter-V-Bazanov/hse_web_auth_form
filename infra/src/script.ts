@@ -174,14 +174,14 @@ function isEmail(rawInput: string): boolean {
  * @returns Код результата проверки.
  */
 function processEmail(emailInput: string): LoginResult {
-  if (emailInput === "") return ET.EMAIL_EMPTY;
+  if (emailInput === "") return LoginValidationCodes.EMAIL_EMPTY;
 
   const mockEmail = "chain@ed.up";
   // Протестировал регекс на 36 строках на regex101.com, хотел вставить их куда-нибудь в ридми, но забыл 
   const emailRegex = /^(?!.*\.\.)(?:[A-Za-z]|[A-Za-z](?:[A-Za-z0-9_-]|\.(?!\.))*[A-Za-z0-9])@(?:[A-Za-z0-9]|[A-Za-z0-9](?:[A-Za-z0-9]|\.(?!\.))*[A-Za-z0-9])$/;
 
-  if (!emailRegex.test(emailInput)) return ET.EMAIL_FORMAT;
-  return emailInput === mockEmail ? ET.EMAIL_OK : ET.EMAIL_WRONG;
+  if (!emailRegex.test(emailInput)) return LoginValidationCodes.EMAIL_FORMAT;
+  return emailInput === mockEmail ? LoginValidationCodes.EMAIL_OK : LoginValidationCodes.EMAIL_WRONG;
 }
 
 /**
@@ -295,25 +295,30 @@ async function setPasswordButtonText(lang: string): Promise<void> {
 }
 
 /**
-  -= ИНТЕРНАЦИОНАЛИЗАЦИЯ =-
+  -= ☭ ИНТЕРНАЦИОНАЛИЗАЦИЯ ☭ =-
  */
+
 /**
  * Загрузка языкового файла.
  * @param lang Код языка, который нужно загрузить (напр. 'ru').
  * @returns Словарь со значениями на нужном языке для всех элементов интерфейса.
  */
 async function loadLanguage(lang: string): Promise<Translations> {
-    const response = await fetch(`${lang}.json`);
+    const response = await fetch(`./${lang}.json`);
     return await response.json();
 }
  
+/**
+ * Применяет переводы ко всем элементам на странице.
+ * @param lang Язык.
+ */
 async function applyLanguage(lang: string): Promise<void> {
   const translations = await loadLanguage(lang);
 
   // Заменяем текстовые значения
   document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
-      if (translations[key]) {
+      if (key && translations[key] && el instanceof HTMLElement) {
           el.innerText = translations[key];
       }
   });
@@ -321,17 +326,29 @@ async function applyLanguage(lang: string): Promise<void> {
   // Заменяем значения placeholder
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
       const key = el.getAttribute('data-i18n-placeholder');
-      if (translations[key]) {
+      if (key && translations[key] && el instanceof HTMLInputElement) {
           el.placeholder = translations[key];
       }
   });
+
+  // Обновляем текст на кнопке "показать/скрыть" (пароль)
+  setPasswordButtonText(lang);
 
   // Сохраняем установленный язык в localStorage
   localStorage.setItem('language', lang);
 }
 
+/**
+  -= УПРАВЛЕНИЕ localStorage =-
+*/
+
+/**
+ * Сохраняет данные для входа, если стоит галочка "Запомнить меня".
+ * @param loginValue Логин для записис в память.
+ * @param passwordValue Пароль для записис в память.
+ */
 function saveLoginData(loginValue: string, passwordValue: string) {
-  if (keepLoggedInCheckbox.checked) {
+  if (keepLoggedInCheckbox?.checked) {
     localStorage.setItem('keepLoggedIn', 'yes');
     localStorage.setItem('savedLogin', loginValue);
     localStorage.setItem('savedPassword', passwordValue);
@@ -342,21 +359,25 @@ function saveLoginData(loginValue: string, passwordValue: string) {
   }
 }
 
-function setKeepLoggedInState() {
-  let keepLoggedInState = localStorage.getItem('keepLoggedIn');
-  if (keepLoggedInState === 'yes') {
-    keepLoggedInCheckbox.checked = true;
-  } else {
-    keepLoggedInCheckbox.checked = false;
-  }
+/**
+ * Устанавливает состояние галочки "Запомнить меня" при загрузке страницы.
+ * @returns Состояние чекбокса.
+ */
+function setKeepLoggedInState(): boolean {
+  if (!keepLoggedInCheckbox) return false;
+  const keepLoggedInState = localStorage.getItem('keepLoggedIn');
+  keepLoggedInCheckbox.checked = keepLoggedInState === 'yes'
   return keepLoggedInCheckbox.checked;
 }
 
-function setInputValues() {
+/**
+ * Подставляет сохраненные логин и пароль в поля ввода.
+ */
+function setInputValues(): void {
   const inputLogin = document.querySelector(`[${dataI18nPlaceholder}='emailPhone']`) as HTMLInputElement;
-  //const inputPassword = document.querySelector(`[${dataI18nPlaceholder}='passwordPlaceholder'`) as HTMLLabelElement;
   const loginValue = localStorage.getItem('savedLogin');
   const passwordValue = localStorage.getItem('savedPassword');
+
   if(inputLogin && loginValue) {
     inputLogin.value = loginValue;
   }
