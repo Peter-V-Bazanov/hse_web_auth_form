@@ -127,6 +127,13 @@ function handleFormSubmit(event: SubmitEvent): void {
     return;
   }
 
+  // Сбрасываем сообщения об ошибках
+  document.querySelectorAll('.errorField').forEach(field => {
+    if (field instanceof HTMLElement) {
+      field.style.visibility = 'hidden';
+    }
+  });
+
   const loginValue = inputLogin.value.trim(); // Достаём значение, введённое пользователем
   const passwordValue = passwordInputElement.value.trim();
 
@@ -304,7 +311,7 @@ async function setPasswordButtonText(lang: string): Promise<void> {
  * @returns Словарь со значениями на нужном языке для всех элементов интерфейса.
  */
 async function loadLanguage(lang: string): Promise<Translations> {
-    const response = await fetch(`./${lang}.json`);
+    const response = await fetch(`/src/${lang}.json`);
     return await response.json();
 }
  
