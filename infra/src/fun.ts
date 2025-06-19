@@ -1,6 +1,13 @@
-// Функция, которая создаёт один элемент серпа и молота:
-function createFallingItem() {
+/**
+ * Создает один анимированный элемент и добавляет его в контейнер.
+ */
+function createFallingItem(): void {
   const container = document.getElementById('fallingContainer');
+
+  if (!container) {
+    console.error('Контейнер для анимации fallingContainer не найден!');
+    return;
+  }
 
   // Создаём снежинку
   const item = document.createElement('span');
@@ -28,14 +35,12 @@ function createFallingItem() {
   });
 }
 
-// Запускаем снежинки раз в n миллисекунд
-export function startFalling() {
+/**
+ * Запускает снежинки раз в N миллисекунд
+ */
+export function startFalling(): void {
   setInterval(() => {
     createFallingItem();
   }, 200);
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-  startFalling();
-});
   
