@@ -42,7 +42,7 @@ export function initializeApp(): void {
   let lang = localStorage.getItem('language');
   // Если язык не сохранён ранее, то определяем язык браузера
   if (!lang || !supportedLangs.includes(lang)) {
-      lang = (navigator.language || navigator.userLanguage).slice(0, 2); // "en-GB" "en-US"
+      lang = (navigator.language).slice(0, 2); // "en-GB" "en-US"
       if (!supportedLangs.includes(lang)) {
           lang = 'en'; // Язык по умолчанию
       }
@@ -54,10 +54,8 @@ export function initializeApp(): void {
   // Применяем язык на странице
   applyLanguage(lang);
 
-  // Устанавливаем слушатели
-  setupLanguageSelect();
-  setupGoogleButton();
-  setupAppleButton();
+  // Устанавливаем все слушатели событий
+  setupEventListeners();
 
   // Устанавливаем значения полей логин/пароль, если они сохранены
   if (setKeepLoggedInState()) {
@@ -65,15 +63,34 @@ export function initializeApp(): void {
   }
 };
 
-// Слушатель кнопки шоу/хайд
-togglePasswordButton.addEventListener('click', function () {
-  togglePasswordVisibility();
-});
+//Установка слушателей
+function setupEventListeners(): void {
+  // Слушатель кнопки шоу/хайд
+  togglePasswordButton.addEventListener('click', togglePasswordVisibility);
+  // Выпадающий список
+  languageSelect.addEventListener('change', handleLanguageChange);
+  // Кнопки "Продолжить с гугл/эпл"
+    const googleBtn = document.querySelector<HTMLButtonElement>('button[data-i18n="continueGoogle"]');
+  if (googleBtn) {
+    googleBtn.addEventListener("click", () => { window.location.href = "dummy.html"; });
+  }
 
-function togglePasswordVisibility()  {
-  let lang = localStorage.getItem('language');
-  //const togglePasswordElement = document.getElementById('togglePassword') as HTMLButtonElement;
+  const appleBtn = document.querySelector<HTMLButtonElement>('button[data-i18n="continueApple"]');
+  if (appleBtn) {
+    appleBtn.addEventListener("click", () => { window.location.href = "dummy.html"; });
+  }
 
+  // Отправка формы входа
+  loginForm.addEventListener('submit', handleFormSubmit);
+}
+
+/**
+ * Обработчики событий
+ */
+// Переключение видимости пароля
+function togglePasswordVisibility(): void {
+  const lang = localStorage.getItem('language') || 'en';
+  
   if (passwordInputElement.type === 'password') { // инпут тайп пароль означает, что сейчас пароль скрыт точками
     passwordInputElement.type = 'text'; // Меняем на текст и пароль показывается
     togglePasswordButton.setAttribute(dataI18n, 'togglePasswordHide'); // Меняем атрибут, чтобы устанавливать нужную надпись при переводе страницы
@@ -85,10 +102,9 @@ function togglePasswordVisibility()  {
   setPasswordButtonText(lang);
 }
 
-async function setPasswordButtonText(lang: string): Promise<void> { // Установка текста на кнопку шоу/хайд
-  const translations = await loadLanguage(lang);
-  const key = togglePasswordButton.getAttribute(dataI18n); // Смотрим какую надпись нужно установить (шоу/хайд)
-  togglePasswordButton.innerText = translations[key];
+function handleLanguageChange(event: Event): void {
+  const selectedLang = (event.target as HTMLSelectElement).value;
+  applyLanguage(selectedLang);
 }
 
 async function loadLanguage(lang: string): Promise<Translations> {
@@ -117,34 +133,6 @@ async function applyLanguage(lang: string): Promise<void> {
 
   // Сохраняем установленный язык в localStorage
   localStorage.setItem('language', lang);
-}
-
-
-
-function setupLanguageSelect() { // Устанавливаем слушатель на селектор языка
-  languageSelect.addEventListener('change', (e) => {
-    const selectedLang = e.target.value;
-    localStorage.setItem('language', selectedLang); // Сохраняем выбранный язык
-    applyLanguage(selectedLang);
-  });
-}
-
-function setupGoogleButton() { // Слушатель кнопки гугл
-  const googleBtn = document.querySelector('button[data-i18n="continueGoogle"]');
-  if (googleBtn) {
-    googleBtn.addEventListener("click", () => {
-      window.location.href = "dummy.html";
-    });
-  }
-}
-
-function setupAppleButton() { // Слушатель кнопки эппл
-  const appleBtn = document.querySelector('button[data-i18n="continueApple"]');
-  if (appleBtn) {
-    appleBtn.addEventListener("click", () => {
-      window.location.href = "dummy.html";
-    });
-  }
 }
 
 if (loginForm){
@@ -322,5 +310,18 @@ function setInputValues() {
   }
   if (passwordValue){
     passwordInputElement.value = passwordValue;
+  }
+}
+
+/**
+ * Управление отображением
+ */
+
+// Установка текста на кнопке "показать/скрыть" (пароль)
+async function setPasswordButtonText(lang: string): Promise<void> { // Установка текста на кнопку шоу/хайд
+  const translations = await loadLanguage(lang);
+  const key = togglePasswordButton.getAttribute(dataI18n); // Смотрим какую надпись нужно установить (шоу/хайд)
+  if (key){
+    togglePasswordButton.innerText = translations[key];
   }
 }
