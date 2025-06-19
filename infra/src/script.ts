@@ -27,25 +27,59 @@ const PasswordValidationCodes = {
 type LoginResult = typeof LoginValidationCodes[keyof typeof LoginValidationCodes];
 type PasswordResult = typeof PasswordValidationCodes[keyof typeof PasswordValidationCodes];
 
-const togglePasswordElement = document.getElementById('togglePassword') as HTMLButtonElement;
+//Получение DOM элементов
+const passwordInputElement = document.getElementById('passwordInput') as HTMLInputElement;
+const togglePasswordButton = document.getElementById('togglePassword') as HTMLButtonElement;
+const loginForm = document.getElementById('login_form') as HTMLFormElement;
 const languageSelect = document.getElementById('languageSelect') as HTMLSelectElement;
+const keepLoggedInCheckbox = document.querySelector<HTMLInputElement>('input[name="keepLoggedIn"]');
+
+//Инициализация страницы
+export function initializeApp(): void {
+  const supportedLangs = ['en', 'ru'];
+
+  // Пытаемся получить сохранённый язык из localStorage
+  let lang = localStorage.getItem('language');
+  // Если язык не сохранён ранее, то определяем язык браузера
+  if (!lang || !supportedLangs.includes(lang)) {
+      lang = (navigator.language || navigator.userLanguage).slice(0, 2); // "en-GB" "en-US"
+      if (!supportedLangs.includes(lang)) {
+          lang = 'en'; // Язык по умолчанию
+      }
+  }
+
+  // Устанавливаем выбранный язык в выпадающем списке
+  languageSelect.value = lang;
+
+  // Применяем язык на странице
+  applyLanguage(lang);
+
+  // Устанавливаем слушатели
+  setupLanguageSelect();
+  setupGoogleButton();
+  setupAppleButton();
+
+  // Устанавливаем значения полей логин/пароль, если они сохранены
+  if (setKeepLoggedInState()) {
+    setInputValues();
+  }
+};
 
 // Слушатель кнопки шоу/хайд
-togglePasswordElement.addEventListener('click', function () {
+togglePasswordButton.addEventListener('click', function () {
   togglePasswordVisibility();
 });
 
 function togglePasswordVisibility()  {
   let lang = localStorage.getItem('language');
-  const passwordInputElement = document.getElementById('passwordInput') as HTMLInputElement;
   //const togglePasswordElement = document.getElementById('togglePassword') as HTMLButtonElement;
 
   if (passwordInputElement.type === 'password') { // инпут тайп пароль означает, что сейчас пароль скрыт точками
     passwordInputElement.type = 'text'; // Меняем на текст и пароль показывается
-    togglePasswordElement.setAttribute(dataI18n, 'togglePasswordHide'); // Меняем атрибут, чтобы устанавливать нужную надпись при переводе страницы
+    togglePasswordButton.setAttribute(dataI18n, 'togglePasswordHide'); // Меняем атрибут, чтобы устанавливать нужную надпись при переводе страницы
   } else { // Иначе наоборот
     passwordInputElement.type = 'password';
-    togglePasswordElement.setAttribute(dataI18n, 'togglePasswordShow');
+    togglePasswordButton.setAttribute(dataI18n, 'togglePasswordShow');
   }
 
   setPasswordButtonText(lang);
@@ -53,8 +87,8 @@ function togglePasswordVisibility()  {
 
 async function setPasswordButtonText(lang: string): Promise<void> { // Установка текста на кнопку шоу/хайд
   const translations = await loadLanguage(lang);
-  const key = togglePasswordElement.getAttribute(dataI18n); // Смотрим какую надпись нужно установить (шоу/хайд)
-  togglePasswordElement.innerText = translations[key];
+  const key = togglePasswordButton.getAttribute(dataI18n); // Смотрим какую надпись нужно установить (шоу/хайд)
+  togglePasswordButton.innerText = translations[key];
 }
 
 async function loadLanguage(lang: string): Promise<Translations> {
@@ -85,36 +119,7 @@ async function applyLanguage(lang: string): Promise<void> {
   localStorage.setItem('language', lang);
 }
 
-export function initializeApp(): void {
-  const supportedLangs = ['en', 'ru'];
 
-  // Пытаемся получить сохранённый язык из localStorage
-  let lang = localStorage.getItem('language');
-
-  // Если язык не сохранён ранее, то определяем язык браузера
-  if (!lang) {
-      lang = (navigator.language || navigator.userLanguage).slice(0, 2); // "en-GB" "en-US"
-      if (!supportedLangs.includes(lang)) {
-          lang = 'en'; // Язык по умолчанию
-      }
-  }
-
-  // Устанавливаем выбранный язык в выпадающем списке
-  languageSelect.value = lang;
-
-  // Применяем язык на странице
-  applyLanguage(lang);
-
-  // Устанавливаем слушатели
-  setupLanguageSelect();
-  setupGoogleButton();
-  setupAppleButton();
-
-  // Устанавливаем значения полей логин/пароль, если они сохранены
-  if (setKeepLoggedInState()) {
-    setInputValues();
-  }
-});
 
 function setupLanguageSelect() { // Устанавливаем слушатель на селектор языка
   languageSelect.addEventListener('change', (e) => {
@@ -142,7 +147,6 @@ function setupAppleButton() { // Слушатель кнопки эппл
   }
 }
 
-const loginForm = document.getElementById('login_form');
 if (loginForm){
   loginForm.addEventListener('submit', function (event) {
     // Получаем элемент поле ввода логина
@@ -287,8 +291,7 @@ function processPassword(passwordInput: string): PasswordResult {
 }
 
 function saveLoginData(loginValue: string, passwordValue: string) {
-  const chexbox = document.querySelector(`[name='keepLoggedIn']`);
-  if (chexbox.checked) {
+  if (keepLoggedInCheckbox.checked) {
     localStorage.setItem('keepLoggedIn', 'yes');
     localStorage.setItem('savedLogin', loginValue);
     localStorage.setItem('savedPassword', passwordValue);
@@ -301,20 +304,23 @@ function saveLoginData(loginValue: string, passwordValue: string) {
 
 function setKeepLoggedInState() {
   let keepLoggedInState = localStorage.getItem('keepLoggedIn');
-  const chexbox = document.querySelector(`[name='keepLoggedIn']`);
   if (keepLoggedInState === 'yes') {
-    chexbox.checked = true;
+    keepLoggedInCheckbox.checked = true;
   } else {
-    chexbox.checked = false;
+    keepLoggedInCheckbox.checked = false;
   }
-  return chexbox.checked;
+  return keepLoggedInCheckbox.checked;
 }
 
 function setInputValues() {
   const inputLogin = document.querySelector(`[${dataI18nPlaceholder}='emailPhone']`) as HTMLInputElement;
-  const inputPassword = document.querySelector(`[${dataI18nPlaceholder}='passwordPlaceholder'`) as HTMLInputElement;
+  //const inputPassword = document.querySelector(`[${dataI18nPlaceholder}='passwordPlaceholder'`) as HTMLLabelElement;
   const loginValue = localStorage.getItem('savedLogin');
   const passwordValue = localStorage.getItem('savedPassword');
-  inputLogin.value = loginValue;
-  inputPassword.value = passwordValue;
+  if(inputLogin && loginValue) {
+    inputLogin.value = loginValue;
+  }
+  if (passwordValue){
+    passwordInputElement.value = passwordValue;
+  }
 }
