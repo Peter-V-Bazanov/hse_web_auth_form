@@ -101,11 +101,49 @@ function togglePasswordVisibility(): void {
 
   setPasswordButtonText(lang);
 }
-
+// Обработчик смены языка
 function handleLanguageChange(event: Event): void {
   const selectedLang = (event.target as HTMLSelectElement).value;
   applyLanguage(selectedLang);
 }
+
+function handleFormSubmit(event: SubmitEvent): void {
+  event.preventDefault();
+
+  // Получаем элемент поле ввода логина
+  const inputLogin = loginForm.querySelector<HTMLInputElement>(`[${dataI18nPlaceholder}='emailPhone']`);
+  
+  if (!inputLogin || !passwordInputElement) {
+    console.error("Не найдены поля для логина или пароля!");
+    return;
+  }
+
+  const loginValue = inputLogin.value.trim(); // Достаём значение, введённое пользователем
+  const passwordValue = passwordInputElement.value.trim();
+
+  inputLogin.classList.remove('animationPingPongFill'); // Убираем визаульное выделение поля для актуального отображения
+  passwordInputElement.classList.remove('animationPingPongFill');
+
+  // Валидация логина и пароля
+  const loginResult = isEmail(loginValue) ? processEmail(loginValue) : processPhoneNumber(loginValue);
+
+  if ((loginResult === LoginValidationCodes.EMAIL_OK) || (loginResult === LoginValidationCodes.PHONE_OK)) { // Если логин верный проверяем пароль
+    const passwordResult = processPassword(passwordValue.trim());
+    if (passwordResult === PasswordValidationCodes.PASSWORD_OK) { // Если пароль верный
+      saveLoginData(loginValue, passwordValue);
+      loginForm.submit();
+    } else {
+      formError(event, passwordInputElement, passwordResult);
+    }
+  } else { // Если логин неверный/некорректный — сообщаем пользователю
+    formError(event, inputLogin, loginResult);
+  }
+  
+  // На пустое значение пароль проверяем всегда
+  if (passwordValue.trim() === "") {
+    formError(event, passwordInputElement, ET.PASSWORD_EMTY);
+  }
+};
 
 async function loadLanguage(lang: string): Promise<Translations> {
     const response = await fetch(`${lang}.json`);
@@ -133,43 +171,6 @@ async function applyLanguage(lang: string): Promise<void> {
 
   // Сохраняем установленный язык в localStorage
   localStorage.setItem('language', lang);
-}
-
-if (loginForm){
-  loginForm.addEventListener('submit', function (event) {
-    // Получаем элемент поле ввода логина
-    const inputLogin = event.target.querySelector(`[${dataI18nPlaceholder}='emailPhone']`);
-    const loginValue = inputLogin.value.trim(); // Достаём значение, введённое пользователем
-    inputLogin.classList.remove('animationPingPongFill'); // Убираем визаульное выделение поля для актуального отображения
-
-    const inputPassword = event.target.querySelector(`[${dataI18nPlaceholder}='passwordPlaceholder']`)
-    const passwordValue = inputPassword.value.trim();
-    inputPassword.classList.remove('animationPingPongFill');
-
-    let loginResult = "";
-    let passwordResult ="";
-    // Определяем тип логина, чтобы отображать точное сообщение об ошибке / проверять форматы
-    if (isEmail(loginValue.trim())) {
-      loginResult = processEmail(loginValue.trim()); // Проверяем почту
-    } else {
-      loginResult = processPhoneNumber(loginValue.trim()); // Проверяем телефон
-    }
-
-    if ((loginResult === ET.EMAIL_OK) || (loginResult === ET.PHONE_OK)) { // При верном логине проверяем пароль
-      passwordResult = processPassword(passwordValue.trim());
-      if (passwordResult != ET.PASSWORD_OK) { // Если пароль неверный или пустой, отображаем сообщение об ошибке
-        formError(event, inputPassword, passwordResult);
-      } else {
-        saveLoginData(loginValue, passwordValue);
-      }
-    } else { // Иначе отображаем сообщение об ошибке в поле логина пользователю
-      formError(event, inputLogin, loginResult);
-    }
-    // На пустое значение пароль проверяем всегда
-    if (passwordValue.trim() === "") {
-      formError(event, inputPassword, ET.PASSWORD_EMTY);
-    }
-  });
 }
 
 // Обработчик ошибок с формы
