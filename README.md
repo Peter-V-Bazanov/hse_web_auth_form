@@ -96,7 +96,7 @@
 
 ## Подключаем инфраструктуру (24 балла)
 
-Сайт можно открыть [**здесь**](https://peter-v-bazanov.github.io/hse_web_auth_form/infra/index.html "пипипупу").
+Сайт можно открыть [**здесь**](https://clinquant-pika-6dddc3.netlify.app/ "пипипупу").
 
 <table>
   <tr>
