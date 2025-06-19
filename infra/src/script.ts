@@ -354,7 +354,7 @@ async function setPasswordButtonText(lang: string): Promise<void> {
  * @returns Словарь со значениями на нужном языке для всех элементов интерфейса.
  */
 async function loadLanguage(lang: string): Promise<Translations> {
-  const response = await fetch(`/src/${lang}.json`);
+  const response = await fetch(`/${lang}.json`);
   return await response.json();
 }
 
